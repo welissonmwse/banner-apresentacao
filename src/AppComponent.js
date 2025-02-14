@@ -128,7 +128,6 @@ export function Carousel() {
                                 <video
                                     className="video"
                                     controls
-                                    preload="metadata"
                                     ref={videoRef}
                                 >
                                     <source
