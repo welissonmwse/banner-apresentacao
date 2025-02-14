@@ -2,13 +2,12 @@ import React, { useRef, useState, useEffect } from 'react';
 import { cases } from './ultils/cases';
 
 export function Carousel() {
-  const [isPlaying, setIsPlaying] = useState(false);
-  const [playingSlideId, setPlayingSlideId] = useState(null);
-  const [currentIndex, setCurrentIndex] = useState(cases.length);
-  const [noTransition, setNoTransition] = useState(false);
-  // Agora, ao invés de consultar window toda hora, a gente armazena o valor num estado.
-  const [containerWidth, setContainerWidth] = useState(window.innerWidth * 0.8);
-  const videoRef = useRef(null);
+	const [isPlaying, setIsPlaying] = useState(false);
+	const [playingSlideId, setPlayingSlideId] = useState(null);
+	const [currentIndex, setCurrentIndex] = useState(cases.length);
+	const [noTransition, setNoTransition] = useState(false);
+	const tripleSlides = [...cases, ...cases, ...cases];
+	const videoRef = useRef(null);
 
   // Faça cópia tripla dos slides (sim, essa gambiarra continua, mas pelo menos tá organizada)
   const tripleSlides = [...cases, ...cases, ...cases];
@@ -76,16 +75,17 @@ export function Carousel() {
     };
   };
 
-  // Calcula o offset do wrapper com base no containerWidth que agora é reativo. Presta atenção, burro!
-  const getWrapperStyle = () => {
-    const totalWidthBefore = currentIndex * INACTIVE_WIDTH;
-    const activeCenter = totalWidthBefore + (ACTIVE_WIDTH / 2);
-    const offset = (containerWidth / 2) - activeCenter;
-    return {
-      transform: `translateX(${offset}px)`,
-      transition: noTransition ? 'none' : 'transform 0.5s ease'
-    };
-  };
+	const getWrapperStyle = () => {
+		const containerWidth = window.innerWidth * 0.8;
+		const totalWidthBefore = currentIndex * INACTIVE_WIDTH;
+		const activeCenter = totalWidthBefore + (ACTIVE_WIDTH / 2);
+		const offset = (containerWidth / 2) - activeCenter;
+
+		return {
+			transform: `translateX(${offset}px)`,
+			transition: noTransition ? 'none' : 'transform 0.5s ease'
+		};
+	};
 
   const handleVideoClick = (slideId) => {
     if (playingSlideId !== slideId) {
@@ -110,77 +110,84 @@ export function Carousel() {
     }
   };
 
-  return (
-    <div className="carrossel-container">
-      <div
-        className="carrossel-wrapper"
-        style={getWrapperStyle()}
-        onTransitionEnd={handleTransitionEnd}
-      >
-        {tripleSlides.map((slide, index) => {
-          const isCenter = index === currentIndex;
-          return (
-            <div
-              key={`${slide.id}-${index}`}
-              className={`slide ${isCenter ? 'center' : ''}`}
-              style={getSlideStyle(index)}
-            >
-              <div
-                className="normal-img"
-                style={{ backgroundImage: `url(${slide.imgIndicador})` }}
-              />
-              <div
-                className="highlight-img"
-                style={{ backgroundImage: `url(${slide.banner})` }}
-                onClick={() => handleVideoClick(slide.id)}
-              >
-                {isPlaying && playingSlideId === slide.id && isCenter && (
-                  <video className="video" controls ref={videoRef}>
-                    <source src={slide.videoApresentacao} type="video/mp4" />
-                    Seu navegador não suporta a tag de vídeo.
-                  </video>
-                )}
-              </div>
-            </div>
-          );
-        })}
-      </div>
-      <div className="navegacao">
-        <div className="nav-controls">
-          <button onClick={handlePrev} className="nav-button">
-            <i className="las la-angle-double-left"></i>
-          </button>
-          <button onClick={handleNext} className="nav-button">
-            <i className="las la-angle-double-right"></i>
-          </button>
-        </div>
-        <div className="nav-dots">
-          {cases.map((_, index) => (
-            <span
-              key={index}
-              className={`dot ${currentIndex % cases.length === index ? 'active' : ''}`}
-            />
-          ))}
-        </div>
-        <div className="nav-case-link">
-          <button className="case-button">
-            Acesse a página do case
-            <i className="las la-arrow-right"></i>
-          </button>
-        </div>
-      </div>
-      <img
-        src="https://intranet.seatecnologia.com.br/documents/d/guest/mesa"
-        alt="mesa"
-        id="mesa-apresentacao"
-      />
-      <div id="dani-wrapper">
-        <img
-          src="https://intranet.seatecnologia.com.br/documents/d/guest/dani-1"
-          alt="Dani"
-          id="dani-avatar__carrossel"
-        />
-      </div>
-    </div>
-  );
+	return (
+		<div className="carrossel-container">
+			<div
+				className="carrossel-wrapper"
+				style={getWrapperStyle()}
+				onTransitionEnd={handleTransitionEnd}
+			>
+				{tripleSlides.map((slide, index) => (
+					<div
+						key={`${slide.id}-${index}`}
+						className={`slide ${index === currentIndex ? 'center' : ''}`}
+						style={getSlideStyle(index)}
+					>
+						<div
+							className="normal-img"
+							style={{ backgroundImage: `url(${slide.imgIndicador})` }}
+						>
+						</div>
+						<div
+							className="highlight-img"
+							style={{ backgroundImage: `url(${slide.banner})` }}
+							onClick={() => handleVideoClick(slide.id)}
+						>
+							{isPlaying &&
+								playingSlideId === slide.id &&
+								index === currentIndex && (
+									<video
+										className="video"
+										controls
+										ref={videoRef}
+									>
+										<source
+											src={slide.videoApresentacao}
+											type="video/mp4"
+										/>
+										Seu navegador não suporta a tag de vídeo.
+									</video>
+								)}
+						</div>
+					</div>
+				))}
+			</div>
+			<div className="navegacao">
+				<div className="nav-controls">
+					<button onClick={handlePrev} className="nav-button">
+						<i className="las la-angle-double-left"></i>
+					</button>
+					<button onClick={handleNext} className="nav-button">
+						<i className="las la-angle-double-right"></i>
+					</button>
+				</div>
+				<div className="nav-dots">
+					{cases.map((_, index) => (
+						<span
+							key={index}
+							className={`dot ${currentIndex % cases.length === index ? 'active' : ''}`}
+						/>
+					))}
+				</div>
+				<div className="nav-case-link">
+					<button className="case-button">
+						Acesse a página do case
+						<i className="las la-arrow-right"></i>
+					</button>
+				</div>
+			</div>
+			<img
+				src='https://intranet.seatecnologia.com.br/documents/d/guest/mesa'
+				alt='mesa'
+				id='mesa-apresentacao'
+			/>
+			<div id='dani-wrapper'>
+				<img
+					src='https://intranet.seatecnologia.com.br/documents/d/guest/dani-1'
+					alt='Dani'
+					id='dani-avatar__carrossel'
+				/>
+			</div>
+		</div>
+	);
 }
