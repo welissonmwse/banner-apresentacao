@@ -7,6 +7,7 @@ export function Carousel() {
 	const [currentIndex, setCurrentIndex] = useState(cases.length);
 	const [noTransition, setNoTransition] = useState(false);
 	const tripleSlides = [...cases, ...cases, ...cases];
+
 	const videoRef = useRef(null);
 
 	const INACTIVE_WIDTH = 132;
@@ -69,7 +70,7 @@ export function Carousel() {
 		const totalWidthBefore = currentIndex * INACTIVE_WIDTH;
 		const activeCenter = totalWidthBefore + (ACTIVE_WIDTH / 2);
 		const offset = (containerWidth / 2) - activeCenter;
-
+		console.log(offset)
 		return {
 			transform: `translateX(${offset}px)`,
 			transition: noTransition ? 'none' : 'transform 0.5s ease'
@@ -159,10 +160,9 @@ export function Carousel() {
 					))}
 				</div>
 				<div className="nav-case-link">
-					<button className="case-button">
+					<a href='#' className="case-button">
 						Acesse a página do case
-						<i className="las la-arrow-right"></i>
-					</button>
+					</a>
 				</div>
 			</div>
 		</div>
