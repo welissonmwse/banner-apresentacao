@@ -43,7 +43,6 @@ export function Carousel() {
 		}
 	}, [noTransition]);
 
-	// Novo useEffect para parar o vídeo quando mudar de slide
 	useEffect(() => {
 		if (videoRef.current) {
 			videoRef.current.pause();
@@ -164,6 +163,18 @@ export function Carousel() {
 						<i className="las la-arrow-right"></i>
 					</button>
 				</div>
+			</div>
+			<img
+				src='https://intranet.seatecnologia.com.br/documents/d/guest/mesa'
+				alt='mesa'
+				id='mesa-apresentacao'
+			/>
+			<div id='dani-wrapper'>
+				<img
+					src='https://intranet.seatecnologia.com.br/documents/d/guest/dani-1'
+					alt='Dani'
+					id='dani-avatar__carrossel'
+				/>
 			</div>
 		</div>
 	);
