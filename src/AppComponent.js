@@ -119,11 +119,11 @@ export function Carousel() {
 	};
 
 	function handleVideoClick() {
+		setIsPlaying(true)
 		console.log(videoRef.current)
 		if (!videoRef.current) return
 
 		videoRef.current.play()
-		setIsPlaying(true)
 	}
 
 	return (
