@@ -142,8 +142,28 @@ export function Carousel() {
 				))}
 			</div>
 			<div className="navegacao">
-				<button onClick={handlePrev}>◀</button>
-				<button onClick={handleNext}>▶</button>
+				<div className="nav-controls">
+					<button onClick={handlePrev} className="nav-button">
+						<i className="las la-angle-double-left"></i>
+					</button>
+					<button onClick={handleNext} className="nav-button">
+						<i className="las la-angle-double-right"></i>
+					</button>
+				</div>
+				<div className="nav-dots">
+					{cases.map((_, index) => (
+						<span
+							key={index}
+							className={`dot ${currentIndex % cases.length === index ? 'active' : ''}`}
+						/>
+					))}
+				</div>
+				<div className="nav-case-link">
+					<button className="case-button">
+						Acesse a página do case
+						<i className="las la-arrow-right"></i>
+					</button>
+				</div>
 			</div>
 		</div>
 	);

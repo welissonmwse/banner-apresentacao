@@ -1,9 +1,8 @@
 .carrossel-container {
 	position: relative;
 	width: 100%;
-	height: 292px;
-	overflow: hidden;
 	margin: 0 auto;
+	overflow-x: hidden;
 }
 
 .carrossel-wrapper {
@@ -63,31 +62,82 @@
 }
 
 .navegacao {
-	position: absolute;
-	bottom: 20px;
-	display: flex;
-	justify-content: center;
-	width: 100%;
-	gap: 10px;
-	z-index: 20;
-}
-
-.navegacao button {
-	width: 40px;
-	height: 40px;
-	border-radius: 50%;
-	border: none;
-	background: #fff;
-	cursor: pointer;
-	font-size: 18px;
-	font-weight: bold;
-	display: flex;
+	display: inline-flex;
 	align-items: center;
-	justify-content: center;
-	transition: background 0.3s;
-	color: #000;
-}
+	padding: 16px 9px 16px 16px;
+	border-radius: 25px;
+	border: 1px solid rgba(255, 255, 255, 0.25);
+	background: linear-gradient(90deg, rgba(0, 0, 0, 0.00) 0%, rgba(0, 0, 0, 0.20) 47.5%, rgba(102, 102, 102, 0.20) 100%);
+	backdrop-filter: blur(25px);
 
-.navegacao button:hover {
-	background: #ddd;
+	.nav-controls {
+		display: flex;
+		gap: 10px;
+
+		.nav-button {
+			width: 40px;
+			height: 40px;
+			border-radius: 50%;
+			border: none;
+			background: #FFF;
+			color: #000;
+			cursor: pointer;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			transition: background 0.3s;
+
+			&:hover {
+				background: #f0f0f0;
+			}
+
+			i {
+				font-size: 18px;
+			}
+		}
+	}
+
+	.nav-dots {
+		display: flex;
+		gap: 8px;
+		align-items: center;
+
+		.dot {
+			width: 8px;
+			height: 8px;
+			border-radius: 50%;
+			background: rgba(255, 255, 255, 0.5);
+			transition: all 0.3s;
+
+			&.active {
+				background: #FFF;
+				width: 24px;
+				border-radius: 12px;
+			}
+		}
+	}
+
+	.nav-case-link {
+		.case-button {
+			display: flex;
+			align-items: center;
+			gap: 8px;
+			padding: 12px 24px;
+			background: #FFF;
+			border: none;
+			border-radius: 24px;
+			color: #000;
+			font-weight: 500;
+			cursor: pointer;
+			transition: background 0.3s;
+
+			&:hover {
+				background: #f0f0f0;
+			}
+
+			i {
+				font-size: 16px;
+			}
+		}
+	}
 }
