@@ -67,15 +67,13 @@ export function Carousel() {
     }, [noTransition]);
 
     useEffect(() => {
-        if (videoRef.current) {
-            handleVideoControl('pause');
-            if (videoIaRef.current) {
-                videoIaRef.current.src = tripleSlides[currentIndex]?.videoApresentacaoIa;
-                videoIaRef.current.load();
-            }
-            setIsPlaying(false);
-            setPlayingSlideId(null);
+        handleVideoControl('pause');
+        if (videoIaRef.current) {
+            videoIaRef.current.src = tripleSlides[currentIndex]?.videoApresentacaoIa;
+            videoIaRef.current.load();
         }
+        setIsPlaying(false);
+        setPlayingSlideId(null);
     }, [currentIndex]);
 
     const getSlideStyle = (index) => {
