@@ -3,15 +3,26 @@
     position: absolute;
     right: 0;
     width: 870px;
+    @media screen and (max-width:1300px){
+        right: -30px;
+        width: 790px;
+    }
 }
 
 
 #dani-wrapper{
     position: absolute;
-    bottom: 10%;
-    right: 5%;
+    bottom: 9%;
+    right: 0;
     display: flex;
     align-items: flex-end;
     height: 382px;
     width: 503px;
+    @media screen and (max-width:1300px){
+        right: -110px;
+        bottom: 5%;
+    }
+    @media screen and (max-width:1900px){
+        bottom:8.5%
+    }
 }
