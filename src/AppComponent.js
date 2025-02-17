@@ -75,7 +75,6 @@ export function Carousel() {
 	};
 
 	const getWrapperStyle = () => {
-		const containerWidth = window.innerWidth * 0.8;
 		const totalWidthBefore = currentIndex * INACTIVE_WIDTH;
 		const activeCenter = totalWidthBefore + (ACTIVE_WIDTH / 2);
 		const offset = (containerWidth / 2) - activeCenter;
