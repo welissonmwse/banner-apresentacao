@@ -1,5 +1,6 @@
 import React, { useRef, useState, useEffect } from 'react';
 import { cases } from './ultils/cases';
+import { getResponsiveValues } from './config';
 
 export function Carousel() {
     const [isPlaying, setIsPlaying] = useState(false);
@@ -7,24 +8,35 @@ export function Carousel() {
     const [containerWidth, setContainerWidth] = useState(window.innerWidth * 0.8)
     const [currentIndex, setCurrentIndex] = useState(cases.length - 1);
     const [noTransition, setNoTransition] = useState(false);
+    const [screenWidth, setScreenWidth] = useState(window.innerWidth);
     const videoRef = useRef(null);
     const videoIaRef = useRef(null);
 
     const tripleSlides = [...cases, ...cases, ...cases];
 
-    const INACTIVE_WIDTH = 132;
-    const ACTIVE_WIDTH = 683;
+    const responsiveValues = getResponsiveValues(screenWidth);
+    const INACTIVE_WIDTH = parseInt(responsiveValues.inactiveWidth);
+    const ACTIVE_WIDTH = parseInt(responsiveValues.activeWidth);
 
-    const handleVideoControl = (action) => {
-        if (action === 'play') {
-            if (videoRef.current && videoIaRef.current) {
-                videoRef.current.play();
-                videoIaRef.current.play();
+    const handleVideoControl = async (action) => {
+        try {
+            if (action === 'play') {
+                if (videoRef.current && videoIaRef.current) {
+                    const playPromises = [
+                        videoRef.current.play(),
+                        videoIaRef.current.play()
+                    ];
+                    await Promise.all(playPromises);
+                }
+            } else if (action === 'pause') {
+                if (videoRef.current && videoIaRef.current) {
+                    videoRef.current.pause();
+                    videoIaRef.current.pause();
+                }
             }
-        } else if (action === 'pause') {
-            if (videoRef.current && videoIaRef.current) {
-                videoRef.current.pause();
-                videoIaRef.current.pause();
+        } catch (error) {
+            if (error.name !== 'AbortError') {
+                console.error('Erro ao controlar vídeos:', error);
             }
         }
     };
@@ -51,7 +63,10 @@ export function Carousel() {
     };
 
     useEffect(() => {
-        const handleResize = () => setContainerWidth(window.innerWidth * 0.8);
+        const handleResize = () => {
+            setContainerWidth(window.innerWidth * 0.8);
+            setScreenWidth(window.innerWidth);
+        };
         window.addEventListener('resize', handleResize);
         return () => window.removeEventListener('resize', handleResize);
     }, []);
@@ -67,13 +82,28 @@ export function Carousel() {
     }, [noTransition]);
 
     useEffect(() => {
-        handleVideoControl('pause');
-        if (videoIaRef.current) {
-            videoIaRef.current.src = tripleSlides[currentIndex]?.videoApresentacaoIa;
-            videoIaRef.current.load();
-        }
-        setIsPlaying(false);
-        setPlayingSlideId(null);
+        const handleIndexChange = async () => {
+            try {
+                handleVideoControl('pause');
+                
+                if (videoIaRef.current) {
+                    videoIaRef.current.src = tripleSlides[currentIndex]?.videoApresentacaoIa;
+                    await new Promise(resolve => {
+                        videoIaRef.current.onloadeddata = resolve;
+                        videoIaRef.current.load();
+                    });
+                }
+                
+                setIsPlaying(false);
+                setPlayingSlideId(null);
+            } catch (error) {
+                if (error.name !== 'AbortError') {
+                    console.error('Erro ao mudar índice:', error);
+                }
+            }
+        };
+
+        handleIndexChange();
     }, [currentIndex]);
 
     useEffect(() => {
@@ -97,11 +127,13 @@ export function Carousel() {
 
     const getSlideStyle = (index) => {
         const isCenter = index === currentIndex;
+        const values = getResponsiveValues(screenWidth);
+        
         return {
-            width: isCenter ? '663px' : '112px',
-            height: '292px',
+            width: isCenter ? values.activeWidth : values.inactiveWidth,
+            height: values.height,
             zIndex: isCenter ? 10 : 1,
-            margin: '0 10px',
+            margin: values.margin,
             transition: noTransition ? 'none' : 'all 0.5s ease'
         };
     };
@@ -132,20 +164,30 @@ export function Carousel() {
         };
     };
 
-    const handleVideoClick = (slideId) => {
+    const handleVideoClick = async (slideId) => {
         if (playingSlideId !== slideId) {
-            handleVideoControl('pause');
-            setPlayingSlideId(slideId);
-            setIsPlaying(true);
+            try {
+                handleVideoControl('pause');
+                setPlayingSlideId(slideId);
+                setIsPlaying(true);
 
-            if (videoIaRef.current) {
-                videoIaRef.current.src = tripleSlides[currentIndex]?.videoApresentacaoIa;
-                videoIaRef.current.load();
+                if (videoIaRef.current) {
+                    videoIaRef.current.src = tripleSlides[currentIndex]?.videoApresentacaoIa;
+                    await new Promise(resolve => {
+                        videoIaRef.current.onloadeddata = resolve;
+                        videoIaRef.current.load();
+                    });
+                }
+
+                await new Promise(resolve => setTimeout(resolve, 100));
+                await handleVideoControl('play');
+            } catch (error) {
+                if (error.name !== 'AbortError') {
+                    console.error('Erro ao manipular vídeo:', error);
+                    setIsPlaying(false);
+                    setPlayingSlideId(null);
+                }
             }
-
-            setTimeout(() => {
-                handleVideoControl('play');
-            }, 0);
         }
     };
 
