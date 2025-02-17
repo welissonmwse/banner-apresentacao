@@ -90,6 +90,7 @@
 
 .slide.center .highlight-img {
 	display: flex;
+	background-size: contain;
 }
 
 .video {
@@ -211,32 +212,6 @@
 				text-rendering: auto;
 				line-height: 1;
 			}
-		}
-	}
-}
-
-.carousel-decorations {
-	grid-row: 3;
-	position: relative;
-	width: 100%;
-
-	.mesa-apresentacao {
-		width: 100%;
-		height: auto;
-		object-fit: contain;
-	}
-
-	.dani-wrapper {
-		position: absolute;
-		right: 0;
-		bottom: 0;
-		width: 300px; // Ajuste conforme necessário
-		height: auto;
-
-		.dani-avatar {
-			width: 100%;
-			height: auto;
-			object-fit: contain;
 		}
 	}
 }

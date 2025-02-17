@@ -19,6 +19,8 @@
     align-items: flex-end;
     height: 382px;
     width: 503px;
+    user-select: none;
+    pointer-events: none;
 
     @media screen and (max-width:1300px) {
         right: -110px;
@@ -34,6 +36,8 @@
     position: absolute;
     bottom: 53px;
     transform: scale(-2, 2);
+    user-select: none;
+    pointer-events: none;
 
     @media(max-width: 1200px) {
         bottom: 3px;
