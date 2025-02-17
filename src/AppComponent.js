@@ -76,6 +76,25 @@ export function Carousel() {
         setPlayingSlideId(null);
     }, [currentIndex]);
 
+    useEffect(() => {
+        const handleFragmentClick = () => {
+            handleVideoControl('pause');
+            setIsPlaying(false);
+            setPlayingSlideId(null);
+        };
+
+        const fragmentButton = document.getElementById('fale-conosco__carrossel__btn');
+        if (fragmentButton) {
+            fragmentButton.addEventListener('click', handleFragmentClick);
+        }
+
+        return () => {
+            if (fragmentButton) {
+                fragmentButton.removeEventListener('click', handleFragmentClick);
+            }
+        };
+    }, []);
+
     const getSlideStyle = (index) => {
         const isCenter = index === currentIndex;
         return {
