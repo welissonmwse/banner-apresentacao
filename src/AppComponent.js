@@ -4,6 +4,7 @@ import { cases } from './ultils/cases';
 export function Carousel() {
 	const [isPlaying, setIsPlaying] = useState(false);
 	const [playingSlideId, setPlayingSlideId] = useState(null);
+	const [containerWidth, setContainerWidth] = useState(window.innerWidth * 0.8)
 	const [currentIndex, setCurrentIndex] = useState(cases.length);
 	const [noTransition, setNoTransition] = useState(false);
 	const videoRef = useRef(null);
