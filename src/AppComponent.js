@@ -1,6 +1,6 @@
 import React, { useRef, useState, useEffect } from 'react';
 import { cases } from './ultils/cases';
-import { getResponsiveValues } from './config';
+import { getResponsiveValues } from './ultils/responsiveValues';
 
 export function Carousel() {
     const [isPlaying, setIsPlaying] = useState(false);
