@@ -98,7 +98,9 @@
 }
 
 .navegacao {
-	margin: 26px auto 44px;
+	position: absolute;
+	bottom: 44px;
+	left: 0;
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
@@ -108,9 +110,12 @@
 	border: 1px solid rgba(255, 255, 255, 0.25);
 	background: linear-gradient(90deg, rgba(0, 0, 0, 0.00) 0%, rgba(0, 0, 0, 0.20) 47.5%, rgba(102, 102, 102, 0.20) 100%);
 	backdrop-filter: blur(25px);
+	z-index: 1;
+	will-change: transform;
+	pointer-events: auto;
 
 	@media (max-width: 1200px) {
-		transform: translateX(-55px);
+		left: 7.5%;
 	}
 
 	.nav-controls {
