@@ -1,8 +1,26 @@
 @use './avatar.scss' as *;
 
+.lfr-layout-structure-item-slider2 {
+	height: 100%;
+
+	&>div {
+		height: 100%;
+
+		&>.portlet-boundary_Slider2_ section {
+			height: 100%;
+		}
+	}
+}
+
+
+#js-portlet-_Slider2_INSTANCE_oscg_ {
+	height: 100%;
+}
+
 .carrossel-container {
 	position: relative;
 	width: 100%;
+	height: 100%;
 	margin: 0 auto;
 	display: grid;
 	grid-template-rows: auto auto auto;
