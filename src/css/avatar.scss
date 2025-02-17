@@ -34,8 +34,7 @@
     position: absolute;
     bottom: 53px;
     transform: scale(-2, 2);
-    filter: drop-shadow(10px 10px 20px rgba(0, 0, 0, 0.7));
-
+    filter: drop-shadow(-5px 1px 5px rgba(0, 0, 0, 0.7));
 
     @media(max-width: 1200px) {
         bottom: 3px;
