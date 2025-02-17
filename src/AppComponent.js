@@ -5,9 +5,10 @@ export function Carousel() {
 	const [isPlaying, setIsPlaying] = useState(false);
 	const [playingSlideId, setPlayingSlideId] = useState(null);
 	const [containerWidth, setContainerWidth] = useState(window.innerWidth * 0.8)
-	const [currentIndex, setCurrentIndex] = useState(cases.length);
+	const [currentIndex, setCurrentIndex] = useState(cases.length - 1);
 	const [noTransition, setNoTransition] = useState(false);
 	const videoRef = useRef(null);
+	const videoIaRef = useRef(null);
 
 	// Faça cópia tripla dos slides (sim, essa gambiarra continua, mas pelo menos tá organizada)
 	const tripleSlides = [...cases, ...cases, ...cases];
@@ -58,6 +59,7 @@ export function Carousel() {
 	useEffect(() => {
 		if (videoRef.current) {
 			videoRef.current.pause();
+			videoIaRef.current.pause();
 			setIsPlaying(false);
 			setPlayingSlideId(null);
 		}
@@ -100,6 +102,7 @@ export function Carousel() {
 		if (playingSlideId !== slideId) {
 			if (videoRef.current) {
 				videoRef.current.pause();
+				videoIaRef.current.pause();
 			}
 			setPlayingSlideId(slideId);
 			setIsPlaying(true);
@@ -107,6 +110,7 @@ export function Carousel() {
 			setTimeout(() => {
 				if (videoRef.current) {
 					const playPromise = videoRef.current.play();
+					videoIaRef.current.play();
 					if (playPromise !== undefined) {
 						playPromise.catch(error => {
 							console.error("Erro ao iniciar o vídeo:", error);
@@ -118,6 +122,11 @@ export function Carousel() {
 			}, 0);
 		}
 	};
+
+	console.log(cases[currentIndex]?.videoApresentacaoIa)
+	console.log(cases[currentIndex])
+	console.log(cases[4])
+	console.log(currentIndex)
 
 	return (
 		<div className="carrossel-container">
@@ -193,11 +202,27 @@ export function Carousel() {
 				id='mesa-apresentacao'
 			/>
 			<div id='dani-wrapper'>
-				<img
-					src='https://intranet.seatecnologia.com.br/documents/d/guest/dani-1'
-					alt='Dani'
-					id='dani-avatar__carrossel'
-				/>
+				{!isPlaying ? (
+
+					<img
+						src='https://intranet.seatecnologia.com.br/documents/d/guest/dani-1'
+						alt='Dani'
+						id='dani-avatar__carrossel'
+					/>
+				) : (
+
+					<video
+						className=""
+						ref={videoIaRef}
+					>
+						<source
+							src={cases[currentIndex]?.videoApresentacaoIa}
+							type="video/mp4"
+						/>
+						Seu navegador não suporta a tag de vídeo.
+					</video>
+				)}
+
 			</div>
 		</div>
 	);
