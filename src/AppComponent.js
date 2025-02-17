@@ -7,97 +7,108 @@ export function Carousel() {
 	const [currentIndex, setCurrentIndex] = useState(cases.length);
 	const [noTransition, setNoTransition] = useState(false);
 	const tripleSlides = [...cases, ...cases, ...cases];
-
 	const videoRef = useRef(null);
 
-	const INACTIVE_WIDTH = 132;
-	const ACTIVE_WIDTH = 683;
+  // Faça cópia tripla dos slides (sim, essa gambiarra continua, mas pelo menos tá organizada)
+  const tripleSlides = [...cases, ...cases, ...cases];
 
-	const teleportaSemReanimar = (novoIndex) => {
-		setNoTransition(true);
-		setCurrentIndex(novoIndex);
-	};
+  // Constantes mágicas? Melhorei um pouquinho pra você não ser tão medíocre
+  const INACTIVE_WIDTH = 132;
+  const ACTIVE_WIDTH = 683;
 
-	const handlePrev = () => {
-		setCurrentIndex(prev => prev - 1);
-	};
+  // Renomeei a função para inglês, assim você aprende a ter consistência
+  const teleportWithoutTransition = (newIndex) => {
+    setNoTransition(true);
+    setCurrentIndex(newIndex);
+  };
 
-	const handleNext = () => {
-		setCurrentIndex(prev => prev + 1);
-	};
+  const handlePrev = () => {
+    setCurrentIndex(prev => prev - 1);
+  };
 
-	const handleTransitionEnd = () => {
-		if (currentIndex < cases.length) {
-			teleportaSemReanimar(currentIndex + cases.length);
-		} else if (currentIndex >= cases.length * 2) {
-			teleportaSemReanimar(currentIndex - cases.length);
-		}
-	};
+  const handleNext = () => {
+    setCurrentIndex(prev => prev + 1);
+  };
 
-	useEffect(() => {
-		if (noTransition) {
-			requestAnimationFrame(() => {
-				requestAnimationFrame(() => {
-					setNoTransition(false);
-				});
-			});
-		}
-	}, [noTransition]);
+  // Corrija esse loop infinito de slides sem ficar cagando a transição toda vez
+  const handleTransitionEnd = () => {
+    if (currentIndex < cases.length) {
+      teleportWithoutTransition(currentIndex + cases.length);
+    } else if (currentIndex >= cases.length * 2) {
+      teleportWithoutTransition(currentIndex - cases.length);
+    }
+  };
 
-	useEffect(() => {
-		if (videoRef.current) {
-			videoRef.current.pause();
-			setIsPlaying(false);
-			setPlayingSlideId(null);
-		}
-	}, [currentIndex]);
+  useEffect(() => {
+    const handleResize = () => setContainerWidth(window.innerWidth * 0.8);
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
-	const getSlideStyle = (index) => {
-		const isCenter = index === currentIndex;
-		return {
-			width: isCenter ? '663px' : '112px',
-			height: '292px',
-			opacity: isCenter ? 1 : 0.7,
-			zIndex: isCenter ? 10 : 1,
-			margin: '0 10px',
-			transition: noTransition ? 'none' : 'all 0.5s ease'
-		};
-	};
+  useEffect(() => {
+    if (noTransition) {
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+          setNoTransition(false);
+        });
+      });
+    }
+  }, [noTransition]);
+
+  useEffect(() => {
+    if (videoRef.current) {
+      videoRef.current.pause();
+      setIsPlaying(false);
+      setPlayingSlideId(null);
+    }
+  }, [currentIndex]);
+
+  const getSlideStyle = (index) => {
+    const isCenter = index === currentIndex;
+    return {
+      width: isCenter ? '663px' : '112px',
+      height: '292px',
+      opacity: isCenter ? 1 : 0.7,
+      zIndex: isCenter ? 10 : 1,
+      margin: '0 10px',
+      transition: noTransition ? 'none' : 'all 0.5s ease'
+    };
+  };
 
 	const getWrapperStyle = () => {
 		const containerWidth = window.innerWidth * 0.8;
 		const totalWidthBefore = currentIndex * INACTIVE_WIDTH;
 		const activeCenter = totalWidthBefore + (ACTIVE_WIDTH / 2);
 		const offset = (containerWidth / 2) - activeCenter;
-		console.log(offset)
+
 		return {
 			transform: `translateX(${offset}px)`,
 			transition: noTransition ? 'none' : 'transform 0.5s ease'
 		};
 	};
 
-	function handleVideoClick(slideId) {
-		if (playingSlideId !== slideId) {
-			if (videoRef.current) {
-				videoRef.current.pause();
-			}
-			setPlayingSlideId(slideId);
-			setIsPlaying(true);
+  const handleVideoClick = (slideId) => {
+    if (playingSlideId !== slideId) {
+      if (videoRef.current) {
+        videoRef.current.pause();
+      }
+      setPlayingSlideId(slideId);
+      setIsPlaying(true);
 
-			setTimeout(() => {
-				if (videoRef.current) {
-					const playPromise = videoRef.current.play();
-					if (playPromise !== undefined) {
-						playPromise.catch(error => {
-							console.log("Erro ao iniciar o vídeo:", error);
-							setIsPlaying(false);
-							setPlayingSlideId(null);
-						});
-					}
-				}
-			}, 0);
-		}
-	}
+      setTimeout(() => {
+        if (videoRef.current) {
+          const playPromise = videoRef.current.play();
+          if (playPromise !== undefined) {
+            playPromise.catch(error => {
+              console.error("Erro ao iniciar o vídeo:", error);
+              setIsPlaying(false);
+              setPlayingSlideId(null);
+            });
+          }
+        }
+      }, 0);
+    }
+  };
 
 	return (
 		<div className="carrossel-container">
@@ -159,9 +170,10 @@ export function Carousel() {
 					))}
 				</div>
 				<div className="nav-case-link">
-					<a href='#' className="case-button">
+					<button className="case-button">
 						Acesse a página do case
-					</a>
+						<i className="las la-arrow-right"></i>
+					</button>
 				</div>
 			</div>
 			<img
