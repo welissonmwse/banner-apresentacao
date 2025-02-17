@@ -4,9 +4,9 @@
     right: 0;
     width: 870px;
 
-    @media screen and (max-width:1300px) {
+    @media (max-width:1200px) {
         right: -30px;
-        width: 790px;
+        width: 600px;
     }
 }
 
@@ -30,4 +30,13 @@
     }
 }
 
-.video-avatar-dani {}
+.video-avatar-dani {
+    position: absolute;
+    bottom: 53px;
+    transform: scale(-2, 2);
+
+    @media(max-width: 1200px) {
+        bottom: 3px;
+        transform: scale(-1.5, 1.5);
+    }
+}
