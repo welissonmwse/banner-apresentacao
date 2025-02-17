@@ -108,20 +108,58 @@ export function Carousel() {
 			setIsPlaying(true);
 
 			setTimeout(() => {
-				if (videoRef.current) {
-					const playPromise = videoRef.current.play();
-					videoIaRef.current.play();
-					if (playPromise !== undefined) {
-						playPromise.catch(error => {
-							console.error("Erro ao iniciar o vídeo:", error);
-							setIsPlaying(false);
-							setPlayingSlideId(null);
-						});
-					}
+				if (videoRef.current && videoIaRef.current) {
+					const mainVideoPromise = videoRef.current.play();
+					const iaVideoPromise = videoIaRef.current.play();
+
+					Promise.all([mainVideoPromise, iaVideoPromise]).catch(error => {
+						console.error("Erro ao iniciar os vídeos:", error);
+						setIsPlaying(false);
+						setPlayingSlideId(null);
+					});
 				}
 			}, 0);
+		} else {
+			// Toggle play/pause quando clicar no mesmo vídeo
+			if (videoRef.current && videoIaRef.current) {
+				if (videoRef.current.paused) {
+					videoRef.current.play();
+					videoIaRef.current.play();
+					setIsPlaying(true);
+				} else {
+					videoRef.current.pause();
+					videoIaRef.current.pause();
+					// setIsPlaying(false);
+				}
+			}
 		}
 	};
+
+	// Adicione este useEffect para sincronizar os eventos de play/pause
+	useEffect(() => {
+		if (videoRef.current && videoIaRef.current) {
+			const mainVideo = videoRef.current;
+			const iaVideo = videoIaRef.current;
+
+			const handleMainVideoPause = () => {
+				iaVideo.pause();
+				// setIsPlaying(false);
+			};
+
+			const handleMainVideoPlay = () => {
+				iaVideo.play();
+				// setIsPlaying(true);
+			};
+
+			mainVideo.addEventListener('pause', handleMainVideoPause);
+			mainVideo.addEventListener('play', handleMainVideoPlay);
+
+			return () => {
+				mainVideo.removeEventListener('pause', handleMainVideoPause);
+				mainVideo.removeEventListener('play', handleMainVideoPlay);
+			};
+		}
+	}, [playingSlideId]);
 
 	console.log(cases[currentIndex]?.videoApresentacaoIa)
 	console.log(cases[currentIndex])
@@ -203,26 +241,24 @@ export function Carousel() {
 			/>
 			<div id='dani-wrapper'>
 				{!isPlaying ? (
-
 					<img
 						src='https://intranet.seatecnologia.com.br/documents/d/guest/dani-1'
 						alt='Dani'
 						id='dani-avatar__carrossel'
 					/>
 				) : (
-
 					<video
-						className=""
+						className="dani-avatar-video"
 						ref={videoIaRef}
+					// muted
 					>
 						<source
-							src={cases[currentIndex]?.videoApresentacaoIa}
+							src={tripleSlides[currentIndex]?.videoApresentacaoIa}
 							type="video/mp4"
 						/>
 						Seu navegador não suporta a tag de vídeo.
 					</video>
 				)}
-
 			</div>
 		</div>
 	);
