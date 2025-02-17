@@ -15,6 +15,20 @@ export function Carousel() {
     const INACTIVE_WIDTH = 132;
     const ACTIVE_WIDTH = 683;
 
+    const handleVideoControl = (action) => {
+        if (action === 'play') {
+            if (videoRef.current && videoIaRef.current) {
+                videoRef.current.play();
+                videoIaRef.current.play();
+            }
+        } else if (action === 'pause') {
+            if (videoRef.current && videoIaRef.current) {
+                videoRef.current.pause();
+                videoIaRef.current.pause();
+            }
+        }
+    };
+
     const teleportWithoutTransition = (newIndex) => {
         setNoTransition(true);
         setCurrentIndex(newIndex);
@@ -54,9 +68,8 @@ export function Carousel() {
 
     useEffect(() => {
         if (videoRef.current) {
-            videoRef.current.pause();
+            handleVideoControl('pause');
             if (videoIaRef.current) {
-                videoIaRef.current.pause();
                 videoIaRef.current.src = tripleSlides[currentIndex]?.videoApresentacaoIa;
                 videoIaRef.current.load();
             }
@@ -64,62 +77,6 @@ export function Carousel() {
             setPlayingSlideId(null);
         }
     }, [currentIndex]);
-
-	useEffect(() => {
-		if (videoRef.current && videoIaRef.current) {
-			const handlePlay = async () => {
-				try {
-					await videoIaRef.current.play();
-				} catch (error) {
-					console.error("Erro ao reproduzir vídeo da IA:", error);
-				}
-			};
-	
-			const handlePause = () => {
-				if (videoIaRef.current) {
-					videoIaRef.current.pause();
-				}
-			};
-	
-			const handleSeeking = () => {
-				if (videoIaRef.current) {
-					videoIaRef.current.currentTime = videoRef.current.currentTime;
-				}
-			};
-	
-			const handleTimeUpdate = () => {
-				if (videoIaRef.current && videoRef.current) {
-					if (Math.abs(videoRef.current.currentTime - videoIaRef.current.currentTime) > 0.5) {
-						videoIaRef.current.currentTime = videoRef.current.currentTime;
-					}
-				}
-			};
-	
-			const handleEnded = () => {
-				setIsPlaying(false);
-				setPlayingSlideId(null);
-			};
-	
-			// Adiciona os event listeners
-			videoRef.current.addEventListener('play', handlePlay);
-			videoRef.current.addEventListener('pause', handlePause);
-			videoRef.current.addEventListener('seeking', handleSeeking);
-			videoRef.current.addEventListener('timeupdate', handleTimeUpdate);
-			videoRef.current.addEventListener('ended', handleEnded);
-	
-			// Cleanup
-			return () => {
-				const video = videoRef.current;
-				if (video) {
-					video.removeEventListener('play', handlePlay);
-					video.removeEventListener('pause', handlePause);
-					video.removeEventListener('seeking', handleSeeking);
-					video.removeEventListener('timeupdate', handleTimeUpdate);
-					video.removeEventListener('ended', handleEnded);
-				}
-			};
-		}
-	}, [isPlaying, currentIndex]); 
 
     const getSlideStyle = (index) => {
         const isCenter = index === currentIndex;
@@ -156,10 +113,7 @@ export function Carousel() {
 
     const handleVideoClick = (slideId) => {
         if (playingSlideId !== slideId) {
-            if (videoRef.current) {
-                videoRef.current.pause();
-                videoIaRef.current?.pause();
-            }
+            handleVideoControl('pause');
             setPlayingSlideId(slideId);
             setIsPlaying(true);
 
@@ -169,16 +123,7 @@ export function Carousel() {
             }
 
             setTimeout(() => {
-                if (videoRef.current && videoIaRef.current) {
-                    const playMainVideo = videoRef.current.play();
-                    const playIaVideo = videoIaRef.current.play();
-
-                    Promise.all([playMainVideo, playIaVideo]).catch(error => {
-                        console.error("Erro ao iniciar os vídeos:", error);
-                        setIsPlaying(false);
-                        setPlayingSlideId(null);
-                    });
-                }
+                handleVideoControl('play');
             }, 0);
         }
     };
@@ -213,6 +158,8 @@ export function Carousel() {
                                         className="video"
                                         controls
                                         ref={videoRef}
+                                        onPlay={() => handleVideoControl('play')}
+                                        onPause={() => handleVideoControl('pause')}
                                     >
                                         <source
                                             src={tripleSlides[currentIndex]?.videoApresentacao}
