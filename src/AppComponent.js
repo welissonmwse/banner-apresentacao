@@ -87,8 +87,6 @@ export function Carousel() {
 	};
 
 	const getNavigationStyle = () => {
-		const containerWidth = window.innerWidth * 0.8;
-		const slideOffset = (currentIndex * INACTIVE_WIDTH) + ((ACTIVE_WIDTH - INACTIVE_WIDTH) / 2);
 		const centerPosition = (containerWidth / 2) - (ACTIVE_WIDTH / 2);
 
 		return {
