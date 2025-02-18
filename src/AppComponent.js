@@ -16,25 +16,35 @@ export function Carousel() {
         const screenWidth = window.innerWidth;
 
         switch (true) {
-            case screenWidth >= 1440:
+            case screenWidth < 640: // < sm
                 return {
-                    inactiveWidth: 128,
-                    activeWidth: 707
+                    inactiveWidth: 54,
+                    activeWidth: 296
                 };
-            case screenWidth >= 1024:
+            case screenWidth < 768: // sm
                 return {
-                    inactiveWidth: 107,
-                    activeWidth: 599
+                    inactiveWidth: 62,
+                    activeWidth: 340
                 };
-            case screenWidth >= 768:
+            case screenWidth < 1024: // md
                 return {
                     inactiveWidth: 88,
                     activeWidth: 493
                 };
-            default:
+            case screenWidth < 1280: // lg
                 return {
-                    inactiveWidth: 62,
-                    activeWidth: 340
+                    inactiveWidth: 107,
+                    activeWidth: 599
+                };
+            case screenWidth < 1536: // xl
+                return {
+                    inactiveWidth: 128,
+                    activeWidth: 707
+                };
+            default: // 2xl (≥1536px)
+                return {
+                    inactiveWidth: 154,
+                    activeWidth: 815
                 };
         }
     };
@@ -129,29 +139,29 @@ export function Carousel() {
 
         let dimensions;
         switch (true) {
-            case screenWidth >= 1440:
+            case screenWidth < 640: // < sm
                 dimensions = {
-                    centerWidth: '663px',
-                    centerHeight: '292px',
-                    sideWidth: '112px',
-                    sideHeight: '292px',
-                    centerMargin: '0 22px',
-                    sideMargin: '0 8px'
+                    centerWidth: '280px',
+                    centerHeight: '120px',
+                    sideWidth: '48px',
+                    sideHeight: '120px',
+                    centerMargin: '0 8px',
+                    sideMargin: '0 3px'
                 };
                 break;
 
-            case screenWidth >= 1024:
+            case screenWidth < 768: // sm
                 dimensions = {
-                    centerWidth: '563px',
-                    centerHeight: '248px',
-                    sideWidth: '95px',
-                    sideHeight: '248px',
-                    centerMargin: '0 18px',
-                    sideMargin: '0 6px'
+                    centerWidth: '320px',
+                    centerHeight: '141px',
+                    sideWidth: '54px',
+                    sideHeight: '141px',
+                    centerMargin: '0 10px',
+                    sideMargin: '0 4px'
                 };
                 break;
 
-            case screenWidth >= 768:
+            case screenWidth < 1024: // md
                 dimensions = {
                     centerWidth: '463px',
                     centerHeight: '204px',
@@ -162,14 +172,36 @@ export function Carousel() {
                 };
                 break;
 
-            default:
+            case screenWidth < 1280: // lg
                 dimensions = {
-                    centerWidth: '320px',
-                    centerHeight: '141px',
-                    sideWidth: '54px',
-                    sideHeight: '141px',
-                    centerMargin: '0 10px',
-                    sideMargin: '0 4px'
+                    centerWidth: '563px',
+                    centerHeight: '248px',
+                    sideWidth: '95px',
+                    sideHeight: '248px',
+                    centerMargin: '0 18px',
+                    sideMargin: '0 6px'
+                };
+                break;
+
+            case screenWidth < 1536: // xl
+                dimensions = {
+                    centerWidth: '663px',
+                    centerHeight: '292px',
+                    sideWidth: '112px',
+                    sideHeight: '292px',
+                    centerMargin: '0 22px',
+                    sideMargin: '0 8px'
+                };
+                break;
+
+            default: // 2xl (≥1536px)
+                dimensions = {
+                    centerWidth: '763px',
+                    centerHeight: '336px',
+                    sideWidth: '128px',
+                    sideHeight: '336px',
+                    centerMargin: '0 26px',
+                    sideMargin: '0 10px'
                 };
         }
 
@@ -204,17 +236,23 @@ export function Carousel() {
         let centerPosition;
 
         switch (true) {
-            case screenWidth >= 1440:
-                centerPosition = (containerWidth / 2) - (663 / 2) - 22; // largura do slide + margem
+            case screenWidth < 640: // < sm
+                centerPosition = (containerWidth / 2) - (280 / 2) - 8;
                 break;
-            case screenWidth >= 1024:
-                centerPosition = (containerWidth / 2) - (563 / 2) - 18;
+            case screenWidth < 768: // sm
+                centerPosition = (containerWidth / 2) - (320 / 2) - 10;
                 break;
-            case screenWidth >= 768:
+            case screenWidth < 1024: // md
                 centerPosition = (containerWidth / 2) - (463 / 2) - 15;
                 break;
-            default:
-                centerPosition = (containerWidth / 2) - (320 / 2) - 10;
+            case screenWidth < 1280: // lg
+                centerPosition = (containerWidth / 2) - (563 / 2) - 18;
+                break;
+            case screenWidth < 1536: // xl
+                centerPosition = (containerWidth / 2) - (663 / 2) - 22;
+                break;
+            default: // 2xl (≥1536px)
+                centerPosition = (containerWidth / 2) - (763 / 2) - 26;
         }
 
         return {

@@ -118,6 +118,11 @@
 	will-change: transform;
 	pointer-events: auto;
 
+	@media (max-width: 1440px) {
+		padding: 8px 9px 8px 16px;
+		bottom: 18px;
+	}
+
 	.nav-controls {
 		display: flex;
 		gap: 10px;
