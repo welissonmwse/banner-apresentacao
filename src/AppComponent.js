@@ -103,7 +103,7 @@ export function Carousel() {
         const handleIndexChange = async () => {
             try {
                 handleVideoControl('pause');
-                
+
                 if (videoIaRef.current) {
                     videoIaRef.current.src = tripleSlides[currentIndex]?.videoApresentacaoIa;
                     await new Promise(resolve => {
@@ -111,7 +111,7 @@ export function Carousel() {
                         videoIaRef.current.load();
                     });
                 }
-                
+
                 setIsPlaying(false);
                 setPlayingSlideId(null);
             } catch (error) {
@@ -200,8 +200,22 @@ export function Carousel() {
     };
 
     const getNavigationStyle = () => {
-        const { activeWidth } = getResponsiveSizes();
-        const centerPosition = (containerWidth / 2) - (activeWidth / 2);
+        const screenWidth = window.innerWidth;
+        let centerPosition;
+
+        switch (true) {
+            case screenWidth >= 1440:
+                centerPosition = (containerWidth / 2) - (663 / 2) - 22; // largura do slide + margem
+                break;
+            case screenWidth >= 1024:
+                centerPosition = (containerWidth / 2) - (563 / 2) - 18;
+                break;
+            case screenWidth >= 768:
+                centerPosition = (containerWidth / 2) - (463 / 2) - 15;
+                break;
+            default:
+                centerPosition = (containerWidth / 2) - (320 / 2) - 10;
+        }
 
         return {
             left: `${centerPosition}px`,
