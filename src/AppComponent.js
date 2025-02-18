@@ -19,13 +19,13 @@ export function Carousel() {
             case screenWidth < 640: // < sm
                 return {
                     inactiveWidth: 54,
-                    activeWidth: 296
+                    activeWidth: 390
                 };
-            case screenWidth < 768: // sm
-                return {
-                    inactiveWidth: 62,
-                    activeWidth: 340
-                };
+            // case screenWidth < 768: // sm
+            //     return {
+            //         inactiveWidth: 62,
+            //         activeWidth: 390
+            //     };
             case screenWidth < 1024: // md
                 return {
                     inactiveWidth: 88,
@@ -141,25 +141,25 @@ export function Carousel() {
         switch (true) {
             case screenWidth < 640: // < sm
                 dimensions = {
-                    centerWidth: '280px',
-                    centerHeight: '120px',
+                    centerWidth: '358px',
+                    centerHeight: '156px',
                     sideWidth: '48px',
-                    sideHeight: '120px',
+                    sideHeight: '156px',
                     centerMargin: '0 8px',
                     sideMargin: '0 3px'
                 };
                 break;
 
-            case screenWidth < 768: // sm
-                dimensions = {
-                    centerWidth: '320px',
-                    centerHeight: '141px',
-                    sideWidth: '54px',
-                    sideHeight: '141px',
-                    centerMargin: '0 10px',
-                    sideMargin: '0 4px'
-                };
-                break;
+            // case screenWidth < 768: // sm
+            //     dimensions = {
+            //         centerWidth: '358px',
+            //         centerHeight: '156px',
+            //         sideWidth: '54px',
+            //         sideHeight: '156px',
+            //         centerMargin: '0 10px',
+            //         sideMargin: '0 4px'
+            //     };
+            //     break;
 
             case screenWidth < 1024: // md
                 dimensions = {
@@ -234,29 +234,36 @@ export function Carousel() {
     const getNavigationStyle = () => {
         const screenWidth = window.innerWidth;
         let centerPosition;
+        let navigationWidth;
 
         switch (true) {
             case screenWidth < 640: // < sm
                 centerPosition = (containerWidth / 2) - (280 / 2) - 8;
+                navigationWidth = 280
                 break;
-            case screenWidth < 768: // sm
-                centerPosition = (containerWidth / 2) - (320 / 2) - 10;
-                break;
+            // case screenWidth < 768: // sm
+            //     centerPosition = (containerWidth / 2) - (320 / 2) - 10;
+            //     break;
             case screenWidth < 1024: // md
                 centerPosition = (containerWidth / 2) - (463 / 2) - 15;
+                navigationWidth = 463
                 break;
             case screenWidth < 1280: // lg
                 centerPosition = (containerWidth / 2) - (563 / 2) - 18;
+                navigationWidth = 563
                 break;
             case screenWidth < 1536: // xl
                 centerPosition = (containerWidth / 2) - (663 / 2) - 22;
+                navigationWidth = 663
                 break;
             default: // 2xl (≥1536px)
                 centerPosition = (containerWidth / 2) - (763 / 2) - 26;
+                navigationWidth = 763
         }
 
         return {
             left: `${centerPosition}px`,
+            width: `${navigationWidth}px`,
             transform: 'none',
             transition: noTransition ? 'none' : 'all 0.5s ease'
         };

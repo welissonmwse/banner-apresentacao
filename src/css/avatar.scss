@@ -44,4 +44,15 @@
         bottom: 3px;
         transform: scale(-1.5, 1.5);
     }
+
+    @media(min-width: 1440px) {
+        bottom: 44px;
+        transform: scale(-1.8, 1.8);
+    }
+
+    @media (min-width: 1536px) {
+        bottom: 87px;
+        transform: scale(-2.3, 2.3);
+        right: 50px;
+    }
 }
