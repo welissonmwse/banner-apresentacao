@@ -343,37 +343,40 @@ export function Carousel() {
                     </div>
                 ))}
             </div>
-            <div className="nav-case-link mobile">
+            <div className="nav-case-link mobile" style={{ left: getNavigationStyle().left }}>
                 <button className="case-button">
                     Acesse a página do case
                 </button>
             </div>
-            <div
-                className="navegacao"
-                style={getNavigationStyle()}
-            >
-                <div className="nav-controls">
-                    <button onClick={handlePrev} className="nav-button">
-                        <i className="las la-angle-double-left"></i>
-                    </button>
-                    <button onClick={handleNext} className="nav-button">
-                        <i className="las la-angle-double-right"></i>
-                    </button>
-                </div>
-                <div className="nav-dots">
-                    {cases.map((_, index) => (
-                        <span
-                            key={index}
-                            className={`dot-carrossel ${currentIndex % cases.length === index ? 'active' : ''}`}
-                        />
-                    ))}
-                </div>
-                <div className="nav-case-link desktop">
-                    <button className="case-button">
-                        Acesse a página do case
-                    </button>
+            <div className='navegacao-wrapper'>
+                <div
+                    className="navegacao"
+                    style={getNavigationStyle()}
+                >
+                    <div className="nav-controls">
+                        <button onClick={handlePrev} className="nav-button">
+                            <i className="las la-angle-double-left"></i>
+                        </button>
+                        <button onClick={handleNext} className="nav-button">
+                            <i className="las la-angle-double-right"></i>
+                        </button>
+                    </div>
+                    <div className="nav-dots">
+                        {cases.map((_, index) => (
+                            <span
+                                key={index}
+                                className={`dot-carrossel ${currentIndex % cases.length === index ? 'active' : ''}`}
+                            />
+                        ))}
+                    </div>
+                    <div className="nav-case-link desktop">
+                        <button className="case-button">
+                            Acesse a página do case
+                        </button>
+                    </div>
                 </div>
             </div>
+
             <img
                 src='https://intranet.seatecnologia.com.br/documents/d/guest/mesa'
                 alt='mesa'
