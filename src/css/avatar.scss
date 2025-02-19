@@ -4,36 +4,48 @@
     right: 0;
     width: 870px;
 
-    @media (max-width:1200px) {
-        right: -30px;
-        width: 600px;
+    @media (min-width: 1024px) {
+        width: 693px;
+    }
+
+    @media (min-width: 1440px) {
+        width: 870px;
+    }
+
+    @media (min-width: 1536px) {
+        width: 1067px;
     }
 }
 
 
 #dani-wrapper {
     position: absolute;
-    bottom: 9%;
+    bottom: 28px;
     right: 0;
     display: flex;
-    align-items: flex-end;
     height: 382px;
     width: 503px;
     user-select: none;
     pointer-events: none;
 
-    @media screen and (max-width:1300px) {
-        right: -110px;
-        bottom: 5%;
+    @media (min-width: 1024px) {
+        bottom: -8px;
+        right: -34px;
     }
 
-    @media screen and (max-width:1900px) {
-        bottom: 8.5%
+    @media (min-width: 1440px) {
+        bottom: 29px;
+        right: 7px;
+    }
+
+    @media (min-width: 1536px) {
+        bottom: 94px;
+        right: 114px;
     }
 }
 
 .video-avatar-dani {
-    position: absolute;
+    // position: absolute;
     bottom: 53px;
     transform: scale(-2, 2);
     user-select: none;

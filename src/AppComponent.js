@@ -1,5 +1,5 @@
 import React, { useRef, useState, useEffect } from 'react';
-import { cases } from './ultils/cases';
+import { cases } from './utils/cases';
 
 export function Carousel() {
     const [isPlaying, setIsPlaying] = useState(false);
@@ -43,8 +43,8 @@ export function Carousel() {
                 };
             default: // 2xl (≥1536px)
                 return {
-                    inactiveWidth: 154,
-                    activeWidth: 815
+                    inactiveWidth: 172,
+                    activeWidth: 1090
                 };
         }
     };
@@ -196,10 +196,10 @@ export function Carousel() {
 
             default: // 2xl (≥1536px)
                 dimensions = {
-                    centerWidth: '763px',
-                    centerHeight: '336px',
-                    sideWidth: '128px',
-                    sideHeight: '336px',
+                    centerWidth: '1064px',
+                    centerHeight: '470px',
+                    sideWidth: '152px',
+                    sideHeight: '470px',
                     centerMargin: '0 26px',
                     sideMargin: '0 10px'
                 };
@@ -257,8 +257,8 @@ export function Carousel() {
                 navigationWidth = 663
                 break;
             default: // 2xl (≥1536px)
-                centerPosition = (containerWidth / 2) - (763 / 2) - 26;
-                navigationWidth = 763
+                centerPosition = (containerWidth / 2) - (1064 / 2) - 26;
+                navigationWidth = 1064
         }
 
         return {

@@ -39,6 +39,10 @@
 	transition: transform 0.5s ease;
 	height: 100%;
 	will-change: transform;
+
+	@media (min-width: 1024px) {
+		position: relative;
+	}
 }
 
 .slide {
@@ -104,7 +108,7 @@
 	align-items: center;
 	justify-content: space-between;
 	width: 663px;
-	padding: 16px 9px 16px 16px;
+	padding: 8px 9px 8px 16px;
 	margin: 0 22px;
 	border-radius: 25px;
 	border: 1px solid rgba(255, 255, 255, 0.25);
@@ -114,9 +118,17 @@
 	will-change: transform;
 	pointer-events: auto;
 
-	@media (max-width: 1440px) {
-		padding: 8px 9px 8px 16px;
-		bottom: 18px;
+	@media (min-width: 1024px) {
+		bottom: 70px;
+	}
+
+	@media (min-width: 1440px) {
+		bottom: 20px;
+	}
+
+	@media (min-width: 1536px) {
+		bottom: 27px;
+		margin: 0 36px;
 	}
 
 	.nav-controls {
