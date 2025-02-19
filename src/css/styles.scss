@@ -89,6 +89,7 @@
 }
 
 .slide.center .highlight-img {
+	cursor: pointer;
 	display: flex;
 	background-size: contain;
 }
@@ -164,7 +165,7 @@
 		align-items: center;
 		justify-content: center;
 
-		.dot {
+		.dot-carrossel {
 			width: 8px;
 			height: 8px;
 			border-radius: 50%;

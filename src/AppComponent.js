@@ -359,7 +359,7 @@ export function Carousel() {
                     {cases.map((_, index) => (
                         <span
                             key={index}
-                            className={`dot ${currentIndex % cases.length === index ? 'active' : ''}`}
+                            className={`dot-carrossel ${currentIndex % cases.length === index ? 'active' : ''}`}
                         />
                     ))}
                 </div>
