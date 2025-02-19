@@ -343,6 +343,11 @@ export function Carousel() {
                     </div>
                 ))}
             </div>
+            <div className="nav-case-link mobile">
+                <button className="case-button">
+                    Acesse a página do case
+                </button>
+            </div>
             <div
                 className="navegacao"
                 style={getNavigationStyle()}
@@ -363,7 +368,7 @@ export function Carousel() {
                         />
                     ))}
                 </div>
-                <div className="nav-case-link">
+                <div className="nav-case-link desktop">
                     <button className="case-button">
                         Acesse a página do case
                     </button>
