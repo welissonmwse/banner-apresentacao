@@ -148,7 +148,7 @@ export function Carousel() {
                         playingSlideId={playingSlideId}
                         videoRef={videoRef}
                         handleVideoControl={handleVideoControl}
-                        handleSeeked={handleSeeked} // Passa a função para sincronização
+                        handleSeeked={handleSeeked} 
                         windowWidth={windowWidth}
                     />
                 ))}
@@ -175,7 +175,11 @@ export function Carousel() {
             />
 
             <div id="dani-wrapper">
-                <video className="video-avatar-dani" ref={videoIaRef} >
+                <video className="video-avatar-dani" 
+                ref={videoIaRef}
+                preload='metadata'
+                muted
+                >
                     <source
                         src={tripleSlides[currentIndex]?.videoApresentacaoIa}
                         type="video/mp4"
