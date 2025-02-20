@@ -1,8 +1,7 @@
-/* Componente de navegação (setas, pontos e botão) */
 import React from 'react';
 import { getNavigationSizes } from '../utils/styles';
 
-export const Navigation = ({
+export function Navigation({
     containerWidth,
     currentIndex,
     noTransition,
@@ -10,7 +9,7 @@ export const Navigation = ({
     onNext,
     totalCases,
     windowWidth
-}) => {
+}) {
     const { centerPosition, navigationWidth } = getNavigationSizes(windowWidth, containerWidth);
     const navStyle = {
         left: `${centerPosition}px`,
@@ -44,4 +43,4 @@ export const Navigation = ({
             </div>
         </div>
     );
-};
+}

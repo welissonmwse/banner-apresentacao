@@ -1,6 +1,6 @@
 import React, { useRef, useState, useEffect, useMemo } from 'react';
 import { cases } from './utils/cases';
-import { useWindowWidth } from './hooks/useWindowWidth'
+import { useWindowWidth } from './hooks/useWindowWidth';
 import { getResponsiveSizes } from './utils/getResponsiveSizes';
 import { loadVideo } from './utils/loadVideo';
 import { Slide } from './components/Slide';
@@ -36,6 +36,13 @@ export function Carousel() {
             if (error.name !== 'AbortError') {
                 console.error('Erro ao controlar vídeos:', error);
             }
+        }
+    };
+
+    /* Sincronização dos vídeos: quando o usuário pula no vídeo principal, atualiza o vídeo secundário */
+    const handleSeeked = () => {
+        if (videoRef.current && videoIaRef.current) {
+            videoIaRef.current.currentTime = videoRef.current.currentTime;
         }
     };
 
@@ -141,6 +148,7 @@ export function Carousel() {
                         playingSlideId={playingSlideId}
                         videoRef={videoRef}
                         handleVideoControl={handleVideoControl}
+                        handleSeeked={handleSeeked} // Passa a função para sincronização
                         windowWidth={windowWidth}
                     />
                 ))}
@@ -167,7 +175,7 @@ export function Carousel() {
             />
 
             <div id="dani-wrapper">
-                <video className="video-avatar-dani" ref={videoIaRef} muted>
+                <video className="video-avatar-dani" ref={videoIaRef} >
                     <source
                         src={tripleSlides[currentIndex]?.videoApresentacaoIa}
                         type="video/mp4"

@@ -1,8 +1,7 @@
-/* Componente que renderiza cada slide */
 import React from 'react';
-import {  getSlideDimensions } from '../utils/styles'
+import { getSlideDimensions } from '../utils/styles';
 
-export const Slide = ({
+export function Slide({
     slide,
     index,
     currentIndex,
@@ -12,8 +11,9 @@ export const Slide = ({
     playingSlideId,
     videoRef,
     handleVideoControl,
+    handleSeeked,
     windowWidth
-}) => {
+}) {
     const isCenter = index === currentIndex;
     const dimensions = getSlideDimensions(windowWidth);
 
@@ -48,6 +48,7 @@ export const Slide = ({
                         ref={videoRef}
                         onPlay={() => handleVideoControl('play')}
                         onPause={() => handleVideoControl('pause')}
+                        onSeeked={handleSeeked} 
                     >
                         <source src={slide.videoApresentacao} type="video/mp4" />
                         Seu navegador não suporta a tag de vídeo.
@@ -56,4 +57,4 @@ export const Slide = ({
             </div>
         </div>
     );
-};
+}
