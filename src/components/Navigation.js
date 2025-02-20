@@ -13,7 +13,8 @@ export function Navigation({
     const { centerPosition, navigationWidth } = getNavigationSizes(windowWidth, containerWidth);
     const navStyle = {
         left: `${centerPosition}px`,
-        width: `${navigationWidth}px`,
+        right: `${centerPosition}px`,
+        width: windowWidth < 1024 ? 'auto' : `${navigationWidth}px`,
         transform: 'none',
         transition: noTransition ? 'none' : 'all 0.5s ease'
     };

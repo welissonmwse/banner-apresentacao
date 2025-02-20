@@ -110,8 +110,14 @@
 	right: 0;
 	height: 86px;
 
+	@media (min-width: 768px) {
+		background: rgba(0, 0, 0, 0.60);
+		border-top: 1px solid rgba(255, 255, 255, .5);
+	}
+
 	@media (min-width: 1024px) {
 		background: transparent;
+		border: none;
 	}
 }
 
@@ -133,7 +139,7 @@
 	pointer-events: auto;
 
 	@media (min-width: 1024px) {
-		bottom: 70px;
+		bottom: 8px;
 	}
 
 	@media (min-width: 1440px) {
@@ -206,7 +212,7 @@
 		margin: 0 15px;
 	}
 
-	@media (min-width: 1024px) {
+	@media (min-width: 768px) {
 		&.desktop {
 			display: block;
 		}
