@@ -14,6 +14,7 @@ export function Carousel() {
     const [playingSlideId, setPlayingSlideId] = useState(null);
     const [currentIndex, setCurrentIndex] = useState(cases.length - 1);
     const [noTransition, setNoTransition] = useState(false);
+
     const videoRef = useRef(null);
     const videoIaRef = useRef(null);
 
@@ -27,7 +28,10 @@ export function Carousel() {
         try {
             if (action === 'play') {
                 if (videoRef.current && videoIaRef.current) {
-                    await Promise.all([videoRef.current.play(), videoIaRef.current.play()]);
+                    await Promise.all([
+                        videoRef.current.play(),
+                        videoIaRef.current.play()
+                    ]);
                 }
             } else if (action === 'pause') {
                 if (videoRef.current && videoIaRef.current) {
@@ -41,6 +45,26 @@ export function Carousel() {
             }
         }
     };
+
+    /**
+     * Listener global para pausar os vídeos quando:
+     * 1) Eles estiverem tocando (isPlaying === true)
+     * 2) O clique ocorrer em um <button> ou <a>
+     */
+    useEffect(() => {
+        const handleGlobalClick = (event) => {
+            if (!isPlaying) return; // Só pausar se estiver tocando
+            const tagName = event.target.tagName.toLowerCase();
+            if (tagName === 'button' || tagName === 'a') {
+                handleVideoControl('pause');
+            }
+        };
+
+        document.addEventListener('click', handleGlobalClick);
+        return () => {
+            document.removeEventListener('click', handleGlobalClick);
+        };
+    }, [isPlaying]);
 
     /* Sincronização dos vídeos: quando o usuário pula no vídeo principal, atualiza o vídeo secundário */
     const handleSeeked = () => {
@@ -105,6 +129,7 @@ export function Carousel() {
                 await handleVideoControl('pause');
                 setPlayingSlideId(slideId);
                 setIsPlaying(true);
+
                 const currentSlide = tripleSlides[currentIndex];
                 if (videoIaRef.current && currentSlide?.videoApresentacaoIa) {
                     await loadVideo(videoIaRef.current, currentSlide.videoApresentacaoIa);
