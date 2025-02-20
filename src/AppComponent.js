@@ -5,7 +5,7 @@ import { getResponsiveSizes } from './utils/getResponsiveSizes';
 import { loadVideo } from './utils/loadVideo';
 import { Slide } from './components/Slide';
 import { Navigation } from './components/Navigation';
-import { getNavigationSizes } from './utils/styles';
+import { getNavigationSizes, getSlideDimensions } from './utils/styles';
 
 export function Carousel() {
     const windowWidth = useWindowWidth();
@@ -20,6 +20,7 @@ export function Carousel() {
     // Cria uma lista com os slides repetidos para efeito de loop
     const tripleSlides = useMemo(() => [...cases, ...cases, ...cases], []);
     const { centerPosition } = getNavigationSizes(windowWidth, containerWidth);
+    const dimensions = getSlideDimensions(windowWidth);
 
     /* Controle dos vídeos */
     const handleVideoControl = async (action) => {
@@ -125,7 +126,7 @@ export function Carousel() {
     const { inactiveWidth, activeWidth } = getResponsiveSizes(windowWidth);
     const totalWidthBefore = currentIndex * inactiveWidth;
     const activeCenter = totalWidthBefore + activeWidth / 2;
-    const wrapperOffset = (containerWidth / 2) - activeCenter;
+    const wrapperOffset = windowWidth < 660 ? (windowWidth / 2) - activeCenter : (containerWidth / 2) - activeCenter;
     const wrapperStyle = {
         transform: `translateX(${wrapperOffset}px)`,
         transition: noTransition ? 'none' : 'transform 0.5s ease'
@@ -150,13 +151,13 @@ export function Carousel() {
                         playingSlideId={playingSlideId}
                         videoRef={videoRef}
                         handleVideoControl={handleVideoControl}
-                        handleSeeked={handleSeeked} 
+                        handleSeeked={handleSeeked}
                         windowWidth={windowWidth}
                     />
                 ))}
             </div>
 
-            <div className="nav-case-link mobile" style={{ left: `${centerPosition}px` }}>
+            <div className="nav-case-link mobile" style={{ left: `${centerPosition}px`, margin: dimensions.center.margin }}>
                 <button className="case-button">Acesse a página do case</button>
             </div>
 
@@ -177,10 +178,10 @@ export function Carousel() {
             />
 
             <div id="dani-wrapper">
-                <video className="video-avatar-dani" 
-                ref={videoIaRef}
-                preload='metadata'
-                muted
+                <video className="video-avatar-dani"
+                    ref={videoIaRef}
+                    preload='metadata'
+                    muted
                 >
                     <source
                         src={tripleSlides[currentIndex]?.videoApresentacaoIa}

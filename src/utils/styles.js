@@ -1,7 +1,7 @@
 export const getSlideDimensions = (width) => {
     if (width < 640) {
         return {
-            center: { width: '358px', height: '156px', margin: '0 8px' },
+            center: { width: '358px', height: '156px', margin: '0 16px' },
             side: { width: '48px', height: '156px', margin: '0 3px' }
         };
     } else if (width < 1024) {
@@ -29,7 +29,7 @@ export const getSlideDimensions = (width) => {
 
 export const getNavigationSizes = (width, containerWidth) => {
     if (width < 640) {
-        return { centerPosition: (containerWidth / 2) - (280 / 2) - 8, navigationWidth: 280 };
+        return { centerPosition: (containerWidth / 2) - (280 / 2) - 16, navigationWidth: 280 };
     } else if (width < 1024) {
         return { centerPosition: (containerWidth / 2) - (463 / 2) - 15, navigationWidth: 463 };
     } else if (width < 1280) {

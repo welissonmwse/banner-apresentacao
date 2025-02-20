@@ -1,5 +1,5 @@
 import React from 'react';
-import { getNavigationSizes } from '../utils/styles';
+import { getNavigationSizes, getSlideDimensions } from '../utils/styles';
 
 export function Navigation({
     containerWidth,
@@ -11,9 +11,11 @@ export function Navigation({
     windowWidth
 }) {
     const { centerPosition, navigationWidth } = getNavigationSizes(windowWidth, containerWidth);
+    const dimensions = getSlideDimensions(windowWidth);
     const navStyle = {
         left: `${centerPosition}px`,
         right: `${centerPosition}px`,
+        margin: dimensions.center.margin,
         width: windowWidth < 1024 ? 'auto' : `${navigationWidth}px`,
         transform: 'none',
         transition: noTransition ? 'none' : 'all 0.5s ease'

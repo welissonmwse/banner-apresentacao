@@ -1,8 +1,8 @@
 #mesa-apresentacao {
-    bottom: 86px;
     position: absolute;
+    bottom: 71px;
     right: 0;
-    width: 870px;
+    width: 374px;
 
     @media (min-width: 768px) {
 
@@ -26,15 +26,18 @@
 
 #dani-wrapper {
     position: absolute;
-    bottom: 28px;
-    right: 0;
+    bottom: 96px;
+    right: -52px;
     display: flex;
-    height: 382px;
-    width: 503px;
+    height: 155px;
+    width: 232px;
     user-select: none;
     pointer-events: none;
 
     @media (min-width: 768px) {
+        height: 382px;
+        width: 503px;
+        bottom: 28px;
         bottom: 41px;
         right: -74px;
     }
