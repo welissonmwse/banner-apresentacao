@@ -28,6 +28,11 @@
     user-select: none;
     pointer-events: none;
 
+    @media (min-width: 768px) {
+        bottom: 41px;
+        right: -74px;
+    }
+
     @media (min-width: 1024px) {
         bottom: -8px;
         right: -34px;
@@ -51,6 +56,10 @@
     user-select: none;
     pointer-events: none;
     filter: drop-shadow(-5px 1px 5px rgba(0, 0, 0, 0.7));
+
+    @media(max-width: 768px) {
+        transform: scale(-1.2, 1.2);
+    }
 
     @media(max-width: 1200px) {
         bottom: 3px;
