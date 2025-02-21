@@ -1,5 +1,5 @@
 /* Hook para monitorar o width da janela */
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 
 export const useWindowWidth = () => {
   const [width, setWidth] = useState(window.innerWidth);
