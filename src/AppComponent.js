@@ -184,7 +184,6 @@ export function Carousel() {
     (async () => {
       if (playingSlideId !== slideId) {
         try {
-          // Removemos a espera pelo elemento do vídeo da Dani.
           await handleVideoControl('pause');
           setPlayingSlideId(slideId);
           setIsPlaying(true);
