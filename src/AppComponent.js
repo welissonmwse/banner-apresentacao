@@ -14,7 +14,7 @@ export function Carousel() {
   const [playingSlideId, setPlayingSlideId] = useState(null);
   const [currentIndex, setCurrentIndex] = useState(cases.length - 1);
   const [noTransition, setNoTransition] = useState(false);
-  const [isLoading, setIsLoading] = useState(false); // Estado de loading
+  const [isLoading, setIsLoading] = useState(false); 
 
   const videoRef = useRef(null);    // Vídeo principal
   const videoIaRef = useRef(null);  // Vídeo da Dani
@@ -104,7 +104,7 @@ export function Carousel() {
             // Só chama play se os vídeos estiverem pausados
             if (videoRef.current.paused && videoIaRef.current.paused) {
               handleVideoControl('play');
-              setIsLoading(false); // Desativa o loading após estabilizar
+              setIsLoading(false);
             }
           }
         }
@@ -260,23 +260,32 @@ export function Carousel() {
   // Verificação contínua a cada 1s para sincronizar os vídeos quando a diferença ultrapassar 0.3s
   useEffect(() => {
     let intervalId;
+    let isSyncing = false; // Flag para evitar sincronizações repetidas
     if (isPlaying) {
       intervalId = setInterval(() => {
         if (videoRef.current && videoIaRef.current) {
           const masterTime = videoRef.current.currentTime;
           const followerTime = videoIaRef.current.currentTime;
-          let diff = Math.abs(masterTime - followerTime);
-          if (diff > 0.3) {
+          let diff = masterTime - followerTime;
+          diff = diff < 0 ? -diff : diff; 
+  
+          if (diff > 0.3 && !isSyncing) {
+            isSyncing = true;
+            // Atualiza o tempo do seguidor
             videoIaRef.current.currentTime = masterTime;
             setIsLoading(true);
-          } else {
-            setIsLoading(false);
+            // Após 500ms, desativa a flag e o loading
+            setTimeout(() => {
+              isSyncing = false;
+              setIsLoading(false);
+            }, 500);
           }
         }
       }, 1000);
     }
     return () => clearInterval(intervalId);
   }, [isPlaying]);
+  
 
   const respSizes = getResponsiveSizes(windowWidth);
   const inactiveWidth = respSizes.inactiveWidth;
