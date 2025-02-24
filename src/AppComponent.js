@@ -91,12 +91,21 @@ export function Carousel() {
       if (!master || !follower) return;
 
       function onWaiting() {
-        handleVideoControl('pause');
+        if (videoRef.current && videoIaRef.current) {
+          if (!videoRef.current.paused || !videoIaRef.current.paused) {
+            handleVideoControl('pause');
+          }
+        }
       }
 
       function onCanPlayThrough() {
-        if (master.readyState >= 3 && follower.readyState >= 3) {
-          handleVideoControl('play');
+        if (videoRef.current && videoIaRef.current) {
+          if (videoRef.current.readyState >= 3 && videoIaRef.current.readyState >= 3) {
+            // Só chama play se os vídeos estiverem pausados
+            if (videoRef.current.paused && videoIaRef.current.paused) {
+              handleVideoControl('play');
+            }
+          }
         }
       }
 
