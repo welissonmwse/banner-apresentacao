@@ -14,9 +14,10 @@ export function Carousel() {
   const [playingSlideId, setPlayingSlideId] = useState(null);
   const [currentIndex, setCurrentIndex] = useState(cases.length - 1);
   const [noTransition, setNoTransition] = useState(false);
+  const [isLoading, setIsLoading] = useState(false); // Estado de loading
 
   const videoRef = useRef(null);    // Vídeo principal
-  const videoIaRef = useRef(null);    // Vídeo da Dani
+  const videoIaRef = useRef(null);  // Vídeo da Dani
 
   // Cria uma lista com os slides repetidos para efeito de loop
   const tripleSlides = useMemo(() => cases.concat(cases, cases), []);
@@ -68,10 +69,7 @@ export function Carousel() {
       if (videoRef.current && videoIaRef.current) {
         const masterTime = videoRef.current.currentTime;
         const followerTime = videoIaRef.current.currentTime;
-        let diff = masterTime - followerTime;
-        if (diff < 0) {
-          diff = -diff;
-        }
+        let diff = Math.abs(masterTime - followerTime);
         if (diff > 0.2) {
           videoIaRef.current.currentTime = masterTime;
         }
@@ -83,7 +81,7 @@ export function Carousel() {
     };
   }, []);
 
-  /* Effect para monitorar buffering */
+  /* Efeito para monitorar buffering */
   useEffect(() => {
     function setupEventListeners() {
       const master = videoRef.current;
@@ -92,6 +90,8 @@ export function Carousel() {
 
       function onWaiting() {
         if (videoRef.current && videoIaRef.current) {
+          // Ativa o loading quando ocorre buffering
+          setIsLoading(true);
           if (!videoRef.current.paused || !videoIaRef.current.paused) {
             handleVideoControl('pause');
           }
@@ -104,6 +104,7 @@ export function Carousel() {
             // Só chama play se os vídeos estiverem pausados
             if (videoRef.current.paused && videoIaRef.current.paused) {
               handleVideoControl('play');
+              setIsLoading(false); // Desativa o loading após estabilizar
             }
           }
         }
@@ -133,6 +134,25 @@ export function Carousel() {
       }, 500);
       return () => clearInterval(intervalId);
     }
+  }, []);
+
+  /* Efeito para tratar eventos de seeking e seeked no vídeo master */
+  useEffect(() => {
+    const master = videoRef.current;
+    if (!master) return;
+    function onSeeking() {
+      setIsLoading(true);
+    }
+    function onSeekedWrapper() {
+      handleSeeked();
+      setIsLoading(false);
+    }
+    master.addEventListener('seeking', onSeeking);
+    master.addEventListener('seeked', onSeekedWrapper);
+    return () => {
+      master.removeEventListener('seeking', onSeeking);
+      master.removeEventListener('seeked', onSeekedWrapper);
+    };
   }, []);
 
   /* Atualiza o índice sem transição para o loop infinito */
@@ -196,28 +216,32 @@ export function Carousel() {
           await handleVideoControl('pause');
           setPlayingSlideId(slideId);
           setIsPlaying(true);
+          setIsLoading(true);
           const currentSlide = tripleSlides[currentIndex];
           if (videoIaRef.current && currentSlide && currentSlide.videoApresentacaoIa) {
             await loadVideo(videoIaRef.current, currentSlide.videoApresentacaoIa);
           }
+          // Aguarda que os vídeos estejam prontos e desativa o loading no helper
           await Promise.all([
             waitForVideoToBeReady(videoRef.current),
             waitForVideoToBeReady(videoIaRef.current)
           ]);
           videoIaRef.current.currentTime = videoRef.current.currentTime;
           await handleVideoControl('play');
+          setIsLoading(false);
         } catch (error) {
           if (error.name !== 'AbortError') {
             console.error('Erro ao manipular vídeo:', error);
             setIsPlaying(false);
             setPlayingSlideId(null);
+            setIsLoading(false);
           }
         }
       }
     })();
   };
 
-  /* Função auxiliar para aguardar que um vídeo esteja pronto para reprodução */
+  /* Função auxiliar para aguardar que um vídeo esteja pronto para reprodução – agora com controle de loading */
   const waitForVideoToBeReady = (video) => {
     return new Promise((resolve) => {
       if (!video) return resolve();
@@ -226,30 +250,32 @@ export function Carousel() {
       }
       const onCanPlayThrough = () => {
         video.removeEventListener('canplaythrough', onCanPlayThrough);
+        setIsLoading(false);
         resolve();
       };
       video.addEventListener('canplaythrough', onCanPlayThrough);
     });
   };
 
-  // Efeito que dispara um timeout único para sincronizar os vídeos após 1 segundo quando isPlaying for true
+  // Verificação contínua a cada 1s para sincronizar os vídeos quando a diferença ultrapassar 0.3s
   useEffect(() => {
+    let intervalId;
     if (isPlaying) {
-      const syncTimeout = setTimeout(() => {
+      intervalId = setInterval(() => {
         if (videoRef.current && videoIaRef.current) {
           const masterTime = videoRef.current.currentTime;
           const followerTime = videoIaRef.current.currentTime;
-          let diff = masterTime - followerTime;
-          if (diff < 0) {
-            diff = -diff;
-          }
+          let diff = Math.abs(masterTime - followerTime);
           if (diff > 0.3) {
             videoIaRef.current.currentTime = masterTime;
+            setIsLoading(true);
+          } else {
+            setIsLoading(false);
           }
         }
       }, 1000);
-      return () => clearTimeout(syncTimeout);
     }
+    return () => clearInterval(intervalId);
   }, [isPlaying]);
 
   const respSizes = getResponsiveSizes(windowWidth);
@@ -282,6 +308,7 @@ export function Carousel() {
             handleVideoControl={handleVideoControl}
             handleSeeked={handleSeeked}
             windowWidth={windowWidth}
+            isLoading={isLoading}
           />
         ))}
       </div>
