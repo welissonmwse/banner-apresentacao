@@ -5,8 +5,8 @@ export const cases = [
     logoClient: "https://intranet.seatecnologia.com.br/documents/d/guest/sesc_logo",
     banner: "https://intranet.seatecnologia.com.br/documents/d/guest/mockup_sesc",
     imgIndicador: "https://intranet.seatecnologia.com.br/documents/d/guest/banner_sesc",
-    videoApresentacaoIa: "https://firebasestorage.googleapis.com/v0/b/linko-52873.appspot.com/o/sesc_avatar.webm?alt=media&token=050f2363-cbac-476a-97f8-67d8e74cd65d",
-    videoApresentacao: "https://intranet.seatecnologia.com.br/documents/d/guest/sesc-1"
+    videoApresentacaoIa: "https://comercial.seatecnologia.com.br/sesc_avatar.webm",
+    videoApresentacao: "https://comercial.seatecnologia.com.br/SESC.mp4"
   },
   {
     id: "2",
@@ -14,8 +14,8 @@ export const cases = [
     logoClient: "https://intranet.seatecnologia.com.br/documents/d/guest/sesc_logo",
     banner: "https://intranet.seatecnologia.com.br/documents/d/guest/mockup_sesc",
     imgIndicador: "https://intranet.seatecnologia.com.br/documents/d/guest/banner_sesc",
-    videoApresentacaoIa: "https://firebasestorage.googleapis.com/v0/b/linko-52873.appspot.com/o/sesc_avatar.webm?alt=media&token=050f2363-cbac-476a-97f8-67d8e74cd65d",
-    videoApresentacao: "https://intranet.seatecnologia.com.br/documents/d/guest/sesc-1"
+    videoApresentacaoIa: "https://comercial.seatecnologia.com.br/sesc_avatar.webm",
+    videoApresentacao: "https://comercial.seatecnologia.com.br/SESC.mp4"
   },
   {
     id: "3",
@@ -23,8 +23,8 @@ export const cases = [
     logoClient: "https://intranet.seatecnologia.com.br/documents/d/guest/sesc_logo",
     banner: "https://intranet.seatecnologia.com.br/documents/d/guest/mockup_sesc",
     imgIndicador: "https://intranet.seatecnologia.com.br/documents/d/guest/banner_sesc",
-    videoApresentacaoIa:"https://firebasestorage.googleapis.com/v0/b/linko-52873.appspot.com/o/sesc_avatar.webm?alt=media&token=050f2363-cbac-476a-97f8-67d8e74cd65d",
-    videoApresentacao: "https://intranet.seatecnologia.com.br/documents/d/guest/sesc-1"
+    videoApresentacaoIa:"https://comercial.seatecnologia.com.br/sesc_avatar.webm",
+    videoApresentacao: "https://comercial.seatecnologia.com.br/SESC.mp4"
   },
   {
     id: "4",
@@ -32,8 +32,8 @@ export const cases = [
     logoClient: "https://intranet.seatecnologia.com.br/documents/d/guest/sesc_logo",
     banner: "https://intranet.seatecnologia.com.br/documents/d/guest/mockup_sesc",
     imgIndicador: "https://intranet.seatecnologia.com.br/documents/d/guest/banner_sesc",
-    videoApresentacaoIa:"https://firebasestorage.googleapis.com/v0/b/linko-52873.appspot.com/o/sesc_avatar.webm?alt=media&token=050f2363-cbac-476a-97f8-67d8e74cd65d",
-    videoApresentacao: "https://intranet.seatecnologia.com.br/documents/d/guest/sesc-1"
+    videoApresentacaoIa:"https://comercial.seatecnologia.com.br/sesc_avatar.webm",
+    videoApresentacao: "https://comercial.seatecnologia.com.br/SESC.mp4"
   },
   {
     id: "5",
@@ -41,7 +41,7 @@ export const cases = [
     logoClient: "https://intranet.seatecnologia.com.br/documents/d/guest/sesc_logo",
     banner: "https://intranet.seatecnologia.com.br/documents/d/guest/mockup_sesc",
     imgIndicador: "https://intranet.seatecnologia.com.br/documents/d/guest/banner_sesc",
-    videoApresentacaoIa:"https://firebasestorage.googleapis.com/v0/b/linko-52873.appspot.com/o/sesc_avatar.webm?alt=media&token=050f2363-cbac-476a-97f8-67d8e74cd65d",
-    videoApresentacao: "https://intranet.seatecnologia.com.br/documents/d/guest/sesc-1"
+    videoApresentacaoIa:"https://comercial.seatecnologia.com.br/sesc_avatar.webm",
+    videoApresentacao: "https://comercial.seatecnologia.com.br/SESC.mp4"
   },
 ]
