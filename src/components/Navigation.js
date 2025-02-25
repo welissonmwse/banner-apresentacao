@@ -41,7 +41,7 @@ export function Navigation({
                     ))}
                 </div>
                 <div className="nav-case-link desktop">
-                    <button className="case-button">Acesse a página do case</button>
+                    <a href='/web/guest/cases' className="case-button">Acesse a página do case</a>
                 </div>
             </div>
         </div>
