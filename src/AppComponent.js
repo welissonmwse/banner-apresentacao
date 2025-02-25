@@ -92,7 +92,7 @@ export function Carousel() {
         const followerTime = videoIaRef.current.currentTime;
         const diff = Math.abs(masterTime - followerTime);
         
-        if (diff > 0.3) {
+        if (diff > 0.2) {
           syncInProgress = true;
           lastSyncTime = now;
           
@@ -317,7 +317,7 @@ export function Carousel() {
     };
   }, [currentIndex, tripleSlides]);
 
-  /* Função auxiliar para aguardar que um vídeo esteja pronto - melhorada com timeout */
+  /* Função auxiliar para aguardar que um vídeo esteja pronto */
   const waitForVideoToBeReady = (video) => {
     return new Promise((resolve) => {
       if (!video) return resolve();
@@ -410,7 +410,7 @@ export function Carousel() {
     transition: noTransition ? 'none' : 'transform 0.5s ease'
   };
 
-  // Observa mudanças na classe "active" do mainContainer
+  // Observa mudanças na classe "active" do mainContainer para pausar os videos caso necessário
   useEffect(() => {
     const mainContainer = document.querySelector('.sessao-inicio');
     if (!mainContainer) return;
