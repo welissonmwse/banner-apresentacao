@@ -410,6 +410,7 @@ export function Carousel() {
     transition: noTransition ? 'none' : 'transform 0.5s ease'
   };
 
+  // Observa mudanças na classe "active" do mainContainer
   useEffect(() => {
     const mainContainer = document.querySelector('.sessao-inicio');
     if (!mainContainer) return;
@@ -426,7 +427,7 @@ export function Carousel() {
       });
     });
   
-    // Observa mudanças nos atributos do mainContainer (nesse caso, o atributo "class")
+    // Observa mudanças nos atributos do mainContainer 
     observer.observe(mainContainer, { attributes: true });
   
     return () => {
