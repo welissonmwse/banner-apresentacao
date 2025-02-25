@@ -26,7 +26,7 @@ export function Carousel() {
   const centerPosition = navSizes.centerPosition;
   const dimensions = getSlideDimensions(windowWidth);
 
-  /* Controle dos vídeos melhorado com tratamento de erros mais robusto */
+  /* Controle dos vídeos */
   function handleVideoControl(action) {
     if (!videoRef.current || !videoIaRef.current) return Promise.resolve();
     
@@ -60,7 +60,7 @@ export function Carousel() {
     }
   }
 
-  /* Sincronização dos vídeos ao finalizar o seek no master - mais segura */
+  /* Sincronização dos vídeos ao finalizar o seek no master */
   function handleSeeked() {
     if (videoRef.current && videoIaRef.current && videoRef.current.readyState >= 2) {
       videoIaRef.current.currentTime = videoRef.current.currentTime;
@@ -74,7 +74,7 @@ export function Carousel() {
     }
   }, [isPlaying]);
 
-  /* Sincronização contínua melhorada: Usando uma única fonte de sincronização eficiente */
+  /* Sincronização contínua: Usando uma única fonte de sincronização*/
   useEffect(() => {
     const master = videoRef.current;
     if (!master) return;
@@ -116,7 +116,7 @@ export function Carousel() {
     };
   }, [isPlaying]);
 
-  /* Efeito para monitorar buffering - implementação melhorada */
+  /* Efeito para monitorar buffering */
   useEffect(() => {
     const setupEventListeners = () => {
       const master = videoRef.current;
@@ -185,7 +185,6 @@ export function Carousel() {
       };
     };
 
-    // Configuração mais robusta dos event listeners
     let cleanup = null;
     
     if (videoRef.current && videoIaRef.current) {
@@ -209,7 +208,7 @@ export function Carousel() {
     };
   }, [isPlaying]);
 
-  /* Efeito para tratar eventos de seeking e seeked no vídeo master - melhorado */
+  /* Efeito para tratar eventos de seeking e seeked no vídeo master*/
   useEffect(() => {
     const master = videoRef.current;
     if (!master) return;
@@ -410,6 +409,31 @@ export function Carousel() {
     transform: `translateX(${wrapperOffset}px)`,
     transition: noTransition ? 'none' : 'transform 0.5s ease'
   };
+
+  useEffect(() => {
+    const mainContainer = document.querySelector('.sessao-inicio');
+    if (!mainContainer) return;
+  
+    const observer = new MutationObserver((mutations) => {
+      mutations.forEach((mutation) => {
+        if (mutation.attributeName === 'class') {
+          // Verifica se o elemento NÃO contém a classe "active"
+          if (!mainContainer.classList.contains('active')) {
+            // Se não tiver "active", pausa os vídeos
+            handleVideoControl('pause');
+          }
+        }
+      });
+    });
+  
+    // Observa mudanças nos atributos do mainContainer (nesse caso, o atributo "class")
+    observer.observe(mainContainer, { attributes: true });
+  
+    return () => {
+      observer.disconnect();
+    };
+  }, []);
+  
 
   return (
     <div className="carrossel-container">
