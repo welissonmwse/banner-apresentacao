@@ -39,32 +39,35 @@ export function Slide({
           opacity: imageOpacity
         }}
       />
-      <div
-        className="highlight-img"
-        style={{ backgroundImage: `url(${slide.banner})`, position: 'relative' }}
-        onClick={() => handleVideoClick(slide.id)}
-      >
-        {isPlaying && playingSlideId === slide.id && isCenter && (
-          <div style={{ position: 'relative' }}>
-            {isLoading && (
-              <div className="loading-spinner">
-                <div className="spinner"></div>
-              </div>
-            )}
-            <video
-              className="video"
-              controls
-              ref={videoRef}
-              onPlay={() => handleVideoControl('play')}
-              onPause={() => handleVideoControl('pause')}
-              onSeeked={handleSeeked}
-            >
-              <source src={slide.videoApresentacao} type="video/mp4" />
-              Seu navegador não suporta a tag de vídeo.
-            </video>
-          </div>
-        )}
-      </div>
+      
+      {!isPlaying && (
+        <div
+          className="highlight-img"
+          style={{ backgroundImage: `url(${slide.banner})`, position: 'relative' }}
+          onClick={() => handleVideoClick(slide.id)}
+        />
+      )}
+      
+      {isPlaying && playingSlideId === slide.id && isCenter && (
+        <div style={{ position: 'relative' }}>
+          {isLoading && (
+            <div className="loading-spinner">
+              <div className="spinner"></div>
+            </div>
+          )}
+          <video
+            className="video"
+            controls
+            ref={videoRef}
+            onPlay={() => handleVideoControl('play')}
+            onPause={() => handleVideoControl('pause')}
+            onSeeked={handleSeeked}
+          >
+            <source src={slide.videoApresentacao} type="video/mp4" />
+            Seu navegador não suporta a tag de vídeo.
+          </video>
+        </div>
+      )}
     </div>
   );
 }

@@ -1,5 +1,11 @@
 @use './avatar.scss' as *;
 
+.portlet-content{
+	@media (max-wdith:698px){
+		justify-content: space-around;
+	}
+}
+
 .lfr-layout-structure-item-slider2 {
 	height: 100%;
 
