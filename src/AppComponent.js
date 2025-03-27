@@ -29,7 +29,7 @@ export function Carousel() {
   /* Controle dos vídeos */
   function handleVideoControl(action) {
     if (!videoRef.current || !videoIaRef.current) return Promise.resolve();
-    
+
     try {
       if (action === 'play') {
         // Use Promise.allSettled em vez de Promise.all para evitar rejeições em cascata
@@ -78,30 +78,30 @@ export function Carousel() {
   useEffect(() => {
     const master = videoRef.current;
     if (!master) return;
-    
+
     let syncInProgress = false;
     let lastSyncTime = 0;
-    
+
     function syncTime() {
       // Evitar sincronizações muito frequentes (limitação de taxa)
       const now = Date.now();
       if (now - lastSyncTime < 250 || syncInProgress || !isPlaying) return;
-      
+
       if (videoRef.current && videoIaRef.current) {
         const masterTime = videoRef.current.currentTime;
         const followerTime = videoIaRef.current.currentTime;
         const diff = Math.abs(masterTime - followerTime);
-        
+
         if (diff > 0.2) {
           syncInProgress = true;
           lastSyncTime = now;
-          
+
           try {
             videoIaRef.current.currentTime = masterTime;
           } catch (e) {
             console.warn('Erro ao sincronizar vídeos:', e);
           }
-          
+
           // Garantir que a flag seja liberada após um tempo
           setTimeout(() => {
             syncInProgress = false;
@@ -109,7 +109,7 @@ export function Carousel() {
         }
       }
     }
-    
+
     master.addEventListener('timeupdate', syncTime);
     return () => {
       master.removeEventListener('timeupdate', syncTime);
@@ -145,11 +145,11 @@ export function Carousel() {
         clearTimeout(playbackTimer);
         playbackTimer = setTimeout(() => {
           if (!videoRef.current || !videoIaRef.current) return;
-          
+
           // Só tente reproduzir se ambos os vídeos estiverem prontos
           if (videoRef.current.readyState >= 3 && videoIaRef.current.readyState >= 3) {
             setIsLoading(false);
-            
+
             // Retome a reprodução apenas se realmente estiver em estado de "playing"
             if (isPlaying && videoRef.current.paused && videoIaRef.current.paused) {
               handleVideoControl('play').catch(err => console.warn('Play after buffering error:', err));
@@ -169,7 +169,7 @@ export function Carousel() {
         setIsLoading(false);
         setIsPlaying(false);
       }
-      
+
       master.addEventListener('error', onError);
       follower.addEventListener('error', onError);
 
@@ -186,7 +186,7 @@ export function Carousel() {
     };
 
     let cleanup = null;
-    
+
     if (videoRef.current && videoIaRef.current) {
       cleanup = setupEventListeners();
     } else {
@@ -196,13 +196,13 @@ export function Carousel() {
           clearInterval(intervalId);
         }
       }, 500);
-      
+
       return () => {
         clearInterval(intervalId);
         if (cleanup) cleanup();
       };
     }
-    
+
     return () => {
       if (cleanup) cleanup();
     };
@@ -212,9 +212,9 @@ export function Carousel() {
   useEffect(() => {
     const master = videoRef.current;
     if (!master) return;
-    
+
     let seekingTimeout = null;
-    
+
     function onSeeking() {
       setIsLoading(true);
       // Limpar timeout anterior se existir
@@ -222,16 +222,16 @@ export function Carousel() {
       // Definir um timeout de segurança para remover o estado de loading
       seekingTimeout = setTimeout(() => setIsLoading(false), 3000);
     }
-    
+
     function onSeekedWrapper() {
       clearTimeout(seekingTimeout);
       handleSeeked();
       setIsLoading(false);
     }
-    
+
     master.addEventListener('seeking', onSeeking);
     master.addEventListener('seeked', onSeekedWrapper);
-    
+
     return () => {
       clearTimeout(seekingTimeout);
       master.removeEventListener('seeking', onSeeking);
@@ -244,21 +244,21 @@ export function Carousel() {
     setNoTransition(true);
     setCurrentIndex(newIndex);
   }
-  
+
   function handlePrev() {
     if (isClickDisabled) return;
     setIsClickDisabled(true);
     setCurrentIndex(prev => prev - 1);
     setTimeout(() => setIsClickDisabled(false), 600);
   }
-  
+
   function handleNext() {
     if (isClickDisabled) return;
     setIsClickDisabled(true);
     setCurrentIndex(prev => prev + 1);
     setTimeout(() => setIsClickDisabled(false), 600);
   }
-  
+
   function handleTransitionEnd() {
     const slidesLength = cases.length;
     if (currentIndex < slidesLength) {
@@ -287,9 +287,9 @@ export function Carousel() {
     const handleIndexChange = async () => {
       try {
         await handleVideoControl('pause');
-        
+
         if (!isMounted) return;
-        
+
         const currentSlide = tripleSlides[currentIndex];
         if (videoIaRef.current && currentSlide && currentSlide.videoApresentacaoIa) {
           try {
@@ -298,7 +298,7 @@ export function Carousel() {
             console.warn('Erro ao carregar vídeo de apoio:', error);
           }
         }
-        
+
         if (isMounted) {
           setIsPlaying(false);
           setPlayingSlideId(null);
@@ -309,9 +309,9 @@ export function Carousel() {
         }
       }
     };
-    
+
     handleIndexChange();
-    
+
     return () => {
       isMounted = false;
     };
@@ -321,23 +321,23 @@ export function Carousel() {
   const waitForVideoToBeReady = (video) => {
     return new Promise((resolve) => {
       if (!video) return resolve();
-      
+
       if (video.readyState >= 3) {
         return resolve();
       }
-      
+
       const timeout = setTimeout(() => {
         video.removeEventListener('canplaythrough', onCanPlayThrough);
         console.warn('Timeout esperando vídeo estar pronto');
         resolve();
       }, 5000);
-      
+
       const onCanPlayThrough = () => {
         clearTimeout(timeout);
         video.removeEventListener('canplaythrough', onCanPlayThrough);
         resolve();
       };
-      
+
       video.addEventListener('canplaythrough', onCanPlayThrough);
     });
   };
@@ -345,19 +345,19 @@ export function Carousel() {
   /* Ao clicar no slide, dispara a reprodução do vídeo - com debounce */
   const handleVideoClick = (slideId) => {
     if (isClickDisabled) return;
-    
+
     setIsClickDisabled(true);
     setTimeout(() => setIsClickDisabled(false), 1000);
-    
+
     (async () => {
       if (playingSlideId !== slideId) {
         try {
           setIsLoading(true);
           await handleVideoControl('pause');
-          
+
           setPlayingSlideId(slideId);
           setIsPlaying(true);
-          
+
           const currentSlide = tripleSlides[currentIndex];
           if (videoIaRef.current && currentSlide && currentSlide.videoApresentacaoIa) {
             try {
@@ -366,7 +366,7 @@ export function Carousel() {
               console.warn('Erro ao carregar vídeo IA:', error);
             }
           }
-          
+
           try {
             await Promise.allSettled([
               waitForVideoToBeReady(videoRef.current),
@@ -375,7 +375,7 @@ export function Carousel() {
           } catch (error) {
             console.warn('Erro ao aguardar vídeos:', error);
           }
-          
+
           if (videoRef.current && videoIaRef.current) {
             try {
               videoIaRef.current.currentTime = videoRef.current.currentTime;
@@ -384,7 +384,7 @@ export function Carousel() {
               console.warn('Erro ao iniciar reprodução:', error);
             }
           }
-          
+
           setIsLoading(false);
         } catch (error) {
           console.error('Erro ao manipular vídeo:', error);
@@ -414,7 +414,7 @@ export function Carousel() {
   useEffect(() => {
     const mainContainer = document.querySelector('.sessao-inicio');
     if (!mainContainer) return;
-  
+
     const observer = new MutationObserver((mutations) => {
       mutations.forEach((mutation) => {
         if (mutation.attributeName === 'class') {
@@ -426,15 +426,15 @@ export function Carousel() {
         }
       });
     });
-  
-    // Observa mudanças nos atributos do mainContainer 
+
+    // Observa mudanças nos atributos do mainContainer
     observer.observe(mainContainer, { attributes: true });
-  
+
     return () => {
       observer.disconnect();
     };
   }, []);
-  
+
 
   return (
     <div className="carrossel-container">
@@ -458,7 +458,7 @@ export function Carousel() {
         ))}
       </div>
 
-      <div className="nav-case-link mobile" style={{ left: centerPosition + 'px', margin: dimensions.center.margin }}>
+      <div className="nav-case-link mobile" style={{ left: centerPosition + 'px', "margin-inline": dimensions.center['margin-inline'] }}>
         <button className="case-button">Acesse a página do case</button>
       </div>
 
@@ -479,12 +479,12 @@ export function Carousel() {
       />
 
       <div id="dani-wrapper">
-        <video 
-          className="video-avatar-dani" 
-          ref={videoIaRef} 
-          preload="metadata" 
+        <video
+          className="video-avatar-dani"
+          ref={videoIaRef}
+          preload="metadata"
           muted
-          playsInline 
+          playsInline
         >
           <source src={(tripleSlides[currentIndex] && tripleSlides[currentIndex].videoApresentacaoIa)} type="video/mp4" />
           Seu navegador não suporta a tag de vídeo.

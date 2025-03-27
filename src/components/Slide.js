@@ -13,7 +13,7 @@ export function Slide({
   handleVideoControl,
   handleSeeked,
   windowWidth,
-  isLoading 
+  isLoading
 }) {
   const isCenter = index === currentIndex;
   const dimensions = getSlideDimensions(windowWidth);
@@ -25,7 +25,7 @@ export function Slide({
   const slideStyle = {
     width: isCenter ? dimensions.center.width : dimensions.side.width,
     height: isCenter ? dimensions.center.height : dimensions.side.height,
-    margin: isCenter ? dimensions.center.margin : dimensions.side.margin,
+    "margin-inline": isCenter ? `${dimensions.center['margin-inline']}px` : `${dimensions.side['margin-inline']}px`,
     zIndex: isCenter ? 10 : 1,
     transition: noTransition ? 'none' : 'all 0.5s ease'
   };
@@ -39,7 +39,7 @@ export function Slide({
           opacity: imageOpacity
         }}
       />
-      
+
       {!isPlaying && (
         <div
           className="highlight-img"
@@ -47,7 +47,7 @@ export function Slide({
           onClick={() => handleVideoClick(slide.id)}
         />
       )}
-      
+
       {isPlaying && playingSlideId === slide.id && isCenter && (
         <div style={{ position: 'relative' }}>
           {isLoading && (
