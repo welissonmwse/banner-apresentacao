@@ -36,7 +36,14 @@ export const getNavigationSizes = (width, containerWidth) => {
         return { centerPosition: (containerWidth / 2) - (563 / 2) - 18, navigationWidth: 563 };
     } else if (width < 1536) {
         return { centerPosition: (containerWidth / 2) - (663 / 2) - 22, navigationWidth: 663 };
-    } else {
+    } else if (width < 3800) {
         return { centerPosition: (containerWidth / 2) - (1077 / 2) - 26, navigationWidth: 1077 };
+    } else {
+        // Caso específico para telas acima de 3800px
+        // Mesmo extraOffset que é usado no Carousel
+        return { 
+            centerPosition: (containerWidth / 2) - (1077 / 2) - 26 - 500, 
+            navigationWidth: 1077 
+        };
     }
 };

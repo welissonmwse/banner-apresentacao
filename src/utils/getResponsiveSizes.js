@@ -5,5 +5,6 @@ export const getResponsiveSizes = (width) => {
     if (width < 1536) return { inactiveWidth: 128, activeWidth: 707 };
     if (width < 3800) return { inactiveWidth: 172, activeWidth: 1090 };
 
-    return { inactiveWidth: 172, activeWidth: 1090, extraOffset: -600 };
+
+    return { inactiveWidth: 172, activeWidth: 1090, extraOffset: 500 };
 };

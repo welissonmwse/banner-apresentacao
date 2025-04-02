@@ -399,6 +399,7 @@ export function Carousel() {
 const respSizes = getResponsiveSizes(windowWidth);
 const inactiveWidth = respSizes.inactiveWidth;
 const activeWidth = respSizes.activeWidth;
+const offSet = respSizes.extraOffset || 0;
 const totalWidthBefore = currentIndex * inactiveWidth;
 const activeCenter = totalWidthBefore + activeWidth / 2;
 
@@ -406,7 +407,7 @@ const activeCenter = totalWidthBefore + activeWidth / 2;
 let wrapperOffset;
 if (windowWidth >= 3800) {
   // Para telas muito grandes (acima de 3800px)
-  wrapperOffset = (containerWidth / 2) - activeCenter - 500; // Aplicando o offset de -500px
+  wrapperOffset = (containerWidth / 2) - activeCenter - offSet;
 } else if (windowWidth < 660) {
   // Para telas pequenas (abaixo de 660px)
   wrapperOffset = (windowWidth / 2) - activeCenter;
