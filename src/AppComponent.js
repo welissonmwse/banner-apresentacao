@@ -395,21 +395,30 @@ export function Carousel() {
       }
     })();
   };
+// Estilos do carrossel
+const respSizes = getResponsiveSizes(windowWidth);
+const inactiveWidth = respSizes.inactiveWidth;
+const activeWidth = respSizes.activeWidth;
+const totalWidthBefore = currentIndex * inactiveWidth;
+const activeCenter = totalWidthBefore + activeWidth / 2;
 
-  // Estilos do carrossel
-  const respSizes = getResponsiveSizes(windowWidth);
-  const inactiveWidth = respSizes.inactiveWidth;
-  const activeWidth = respSizes.activeWidth;
-  const totalWidthBefore = currentIndex * inactiveWidth;
-  const activeCenter = totalWidthBefore + activeWidth / 2;
-  const wrapperOffset = windowWidth < 660
-    ? (windowWidth / 2) - activeCenter
-    : (containerWidth / 2) - activeCenter;
-  const wrapperStyle = {
-    transform: `translateX(${wrapperOffset}px)`,
-    transition: noTransition ? 'none' : 'transform 0.5s ease'
-  };
+// Nova condição para calcular o wrapperOffset
+let wrapperOffset;
+if (windowWidth >= 3800) {
+  // Para telas muito grandes (acima de 3800px)
+  wrapperOffset = (containerWidth / 2) - activeCenter - 500; // Aplicando o offset de -500px
+} else if (windowWidth < 660) {
+  // Para telas pequenas (abaixo de 660px)
+  wrapperOffset = (windowWidth / 2) - activeCenter;
+} else {
+  // Para telas intermediárias
+  wrapperOffset = (containerWidth / 2) - activeCenter;
+}
 
+const wrapperStyle = {
+  transform: `translateX(${wrapperOffset}px)`,
+  transition: noTransition ? 'none' : 'transform 0.5s ease'
+};
   // Observa mudanças na classe "active" do mainContainer para pausar os videos caso necessário
   useEffect(() => {
     const mainContainer = document.querySelector('.sessao-inicio');
