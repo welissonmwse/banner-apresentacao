@@ -32,7 +32,6 @@ export function Carousel() {
 
     try {
       if (action === 'play') {
-        // Use Promise.allSettled em vez de Promise.all para evitar rejeições em cascata
         return Promise.allSettled([
           videoRef.current.play().catch(err => {
             console.warn('Master video play error:', err);
