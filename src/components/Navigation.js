@@ -12,11 +12,13 @@ export function Navigation({
 }) {
     const { centerPosition, navigationWidth } = getNavigationSizes(windowWidth, containerWidth);
     const dimensions = getSlideDimensions(windowWidth);
+    const isMobile = windowWidth < 1024;
+
     const navStyle = {
-        left: `${centerPosition}px`,
+        left: `${isMobile ? centerPosition : centerPosition + dimensions.side['margin-inline']}px`,
         right: `${centerPosition}px`,
-        margin: dimensions.center.margin,
-        width: windowWidth < 1024 ? 'auto' : `${navigationWidth}px`,
+        "margin-inline": `${dimensions.center['margin-inline'] + (isMobile ? 0 : dimensions.side['margin-inline'])}px`,
+        width: isMobile ? 'auto' : `${navigationWidth}px`,
         transform: 'none',
         transition: noTransition ? 'none' : 'all 0.5s ease'
     };

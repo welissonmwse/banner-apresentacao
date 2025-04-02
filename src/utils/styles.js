@@ -1,28 +1,28 @@
 export const getSlideDimensions = (width) => {
     if (width < 640) {
         return {
-            center: { width: '358px', height: '156px', margin: '0 16px' },
-            side: { width: '48px', height: '156px', margin: '0 3px' }
+            center: { width: '358px', height: '157px', "margin-inline": 16 },
+            side: { width: '48px', height: '157px', "margin-inline": 3 }
         };
     } else if (width < 1024) {
         return {
-            center: { width: '463px', height: '204px', margin: '0 15px' },
-            side: { width: '78px', height: '204px', margin: '0 5px' }
+            center: { width: '463px', height: '204px', "margin-inline": 15 },
+            side: { width: '78px', height: '204px', "margin-inline": 5 }
         };
     } else if (width < 1280) {
         return {
-            center: { width: '563px', height: '248px', margin: '0 18px' },
-            side: { width: '95px', height: '248px', margin: '0 6px' }
+            center: { width: '563px', height: '248px', "margin-inline": 18 },
+            side: { width: '95px', height: '248px', "margin-inline": 6 }
         };
     } else if (width < 1536) {
         return {
-            center: { width: '663px', height: '292px', margin: '0 22px' },
-            side: { width: '112px', height: '292px', margin: '0 8px' }
+            center: { width: '663px', height: '292px', "margin-inline": 22 },
+            side: { width: '112px', height: '292px', "margin-inline": 8 }
         };
     } else {
         return {
-            center: { width: '1064px', height: '470px', margin: '0 26px' },
-            side: { width: '152px', height: '470px', margin: '0 10px' }
+            center: { width: '1077px', height: '470px', "margin-inline": 26 },
+            side: { width: '152px', height: '470px', "margin-inline": 10 }
         };
     }
 };
@@ -37,6 +37,6 @@ export const getNavigationSizes = (width, containerWidth) => {
     } else if (width < 1536) {
         return { centerPosition: (containerWidth / 2) - (663 / 2) - 22, navigationWidth: 663 };
     } else {
-        return { centerPosition: (containerWidth / 2) - (1064 / 2) - 26, navigationWidth: 1064 };
+        return { centerPosition: (containerWidth / 2) - (1077 / 2) - 26, navigationWidth: 1077 };
     }
 };
