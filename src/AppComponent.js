@@ -16,6 +16,7 @@ export function Carousel() {
   const [noTransition, setNoTransition] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [isClickDisabled, setIsClickDisabled] = useState(false);
+  const [isSafariBrowser, setIsSafariBrowser] = useState(false);
 
   const videoRef = useRef(null);    // Vídeo principal
   const videoIaRef = useRef(null);  // Vídeo da Dani
@@ -25,6 +26,15 @@ export function Carousel() {
   const navSizes = getNavigationSizes(windowWidth, containerWidth);
   const centerPosition = navSizes.centerPosition;
   const dimensions = getSlideDimensions(windowWidth);
+
+  /* Detecção de Safari */
+  useEffect(() => {
+    const ua = navigator.userAgent.toLowerCase();
+    const isSafari = ua.indexOf('safari') !== -1 && 
+                     ua.indexOf('chrome') === -1 && 
+                     ua.indexOf('android') === -1;
+    setIsSafariBrowser(isSafari);
+  }, []);
 
   /* Controle dos vídeos */
   function handleVideoControl(action) {
@@ -394,31 +404,33 @@ export function Carousel() {
       }
     })();
   };
-// Estilos do carrossel
-const respSizes = getResponsiveSizes(windowWidth);
-const inactiveWidth = respSizes.inactiveWidth;
-const activeWidth = respSizes.activeWidth;
-const offSet = respSizes.extraOffset || 0;
-const totalWidthBefore = currentIndex * inactiveWidth;
-const activeCenter = totalWidthBefore + activeWidth / 2;
+  
+  // Estilos do carrossel
+  const respSizes = getResponsiveSizes(windowWidth);
+  const inactiveWidth = respSizes.inactiveWidth;
+  const activeWidth = respSizes.activeWidth;
+  const offSet = respSizes.extraOffset || 0;
+  const totalWidthBefore = currentIndex * inactiveWidth;
+  const activeCenter = totalWidthBefore + activeWidth / 2;
 
-// Nova condição para calcular o wrapperOffset
-let wrapperOffset;
-if (windowWidth >= 3800) {
-  // Para telas muito grandes (acima de 3800px)
-  wrapperOffset = (containerWidth / 2) - activeCenter - offSet;
-} else if (windowWidth < 660) {
-  // Para telas pequenas (abaixo de 660px)
-  wrapperOffset = (windowWidth / 2) - activeCenter;
-} else {
-  // Para telas intermediárias
-  wrapperOffset = (containerWidth / 2) - activeCenter;
-}
+  // Nova condição para calcular o wrapperOffset
+  let wrapperOffset;
+  if (windowWidth >= 3800) {
+    // Para telas muito grandes (acima de 3800px)
+    wrapperOffset = (containerWidth / 2) - activeCenter - offSet;
+  } else if (windowWidth < 660) {
+    // Para telas pequenas (abaixo de 660px)
+    wrapperOffset = (windowWidth / 2) - activeCenter;
+  } else {
+    // Para telas intermediárias
+    wrapperOffset = (containerWidth / 2) - activeCenter;
+  }
 
-const wrapperStyle = {
-  transform: `translateX(${wrapperOffset}px)`,
-  transition: noTransition ? 'none' : 'transform 0.5s ease'
-};
+  const wrapperStyle = {
+    transform: `translateX(${wrapperOffset}px)`,
+    transition: noTransition ? 'none' : 'transform 0.5s ease'
+  };
+  
   // Observa mudanças na classe "active" do mainContainer para pausar os videos caso necessário
   useEffect(() => {
     const mainContainer = document.querySelector('.sessao-inicio');
@@ -487,18 +499,20 @@ const wrapperStyle = {
         id="mesa-apresentacao"
       />
 
-      <div id="dani-wrapper">
-        <video
-          className="video-avatar-dani"
-          ref={videoIaRef}
-          preload="metadata"
-          muted
-          playsInline
-        >
-          <source src={(tripleSlides[currentIndex] && tripleSlides[currentIndex].videoApresentacaoIa)} type="video/mp4" />
-          Seu navegador não suporta a tag de vídeo.
-        </video>
-      </div>
+      {!isSafariBrowser && (
+        <div id="dani-wrapper">
+          <video
+            className="video-avatar-dani"
+            ref={videoIaRef}
+            preload="metadata"
+            muted
+            playsInline
+          >
+            <source src={(tripleSlides[currentIndex] && tripleSlides[currentIndex].videoApresentacaoIa)} type="video/mp4" />
+            Seu navegador não suporta a tag de vídeo.
+          </video>
+        </div>
+      )}
     </div>
   );
 }

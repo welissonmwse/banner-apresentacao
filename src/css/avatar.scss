@@ -86,3 +86,8 @@
         right: 50px;
     }
 }
+
+//Remover a Dani no Safari
+.safari #dani-wrapper {
+    display: none !important;
+  }
