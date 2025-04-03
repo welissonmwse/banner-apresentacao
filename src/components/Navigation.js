@@ -15,9 +15,9 @@ export function Navigation({
     const isMobile = windowWidth < 1024;
 
     const navStyle = {
-        left: `${isMobile ? centerPosition : centerPosition + dimensions.side['margin-inline']}px`,
+        left: `${windowWidth < 1900 ? centerPosition : centerPosition + dimensions.side['margin-inline']}px`,
         right: `${centerPosition}px`,
-        "margin-inline": `${dimensions.center['margin-inline'] + (isMobile ? 0 : dimensions.side['margin-inline'])}px`,
+        "margin-inline": `${dimensions.center['margin-inline'] + (windowWidth < 1900 ? 0 : dimensions.side['margin-inline'])}px`,
         width: isMobile ? 'auto' : `${navigationWidth}px`,
         transform: 'none',
         transition: noTransition ? 'none' : 'all 0.5s ease'
