@@ -53,10 +53,6 @@
 	transition: transform 0.5s ease;
 	height: 100%;
 	will-change: transform;
-
-	// @media (min-width: 1024px) {
-	// 	position: relative;
-	// }
 }
 
 .slide {
@@ -158,7 +154,7 @@
 	}
 
 	@media (min-width: 1440px) {
-		bottom: 20px;
+		bottom: 40px;
 	}
 
 	@media (min-width: 1536px) {
