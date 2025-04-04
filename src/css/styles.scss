@@ -35,12 +35,8 @@
 	margin: 0 auto;
 	gap: 20px;
 	overflow: hidden;
-	-webkit-mask-image: linear-gradient(to right,
-			black 80%,
-			transparent 100%);
-	mask-image: linear-gradient(to right,
-			black 80%,
-			transparent 100%);
+	mask-image: linear-gradient(to right, transparent 0%, black 20%, black 80%, transparent 100%);
+	-webkit-mask-image: linear-gradient(to right, transparent 0%, black 20%, black 80%, transparent 100%);
 }
 
 .carrossel-content {
