@@ -90,4 +90,25 @@
 //Remover a Dani no Safari
 .safari #dani-wrapper {
     display: none !important;
-  }
+}
+
+/* Ajuste fino para telas específicas */
+@media (min-width: 1024px) and (max-width: 1439px) {
+    .safari-container .nav-case-link.mobile {
+        transform: translateX(120px);
+    }
+
+    .safari-container .navegacao {
+        transform: translateX(120px);
+    }
+}
+
+@media (min-width: 1440px) {
+    .safari-container .nav-case-link.mobile {
+        transform: translateX(150px);
+    }
+
+    .safari-container .navegacao {
+        transform: translateX(150px);
+    }
+}

@@ -8,24 +8,14 @@ import { Navigation } from './components/Navigation';
 import { getNavigationSizes, getSlideDimensions } from './utils/styles';
 
 export function Carousel() {
+  const [isSafariBrowser, setIsSafariBrowser] = useState(false);
   const windowWidth = useWindowWidth();
-  const containerWidth = windowWidth * 0.8;
   const [isPlaying, setIsPlaying] = useState(false);
   const [playingSlideId, setPlayingSlideId] = useState(null);
   const [currentIndex, setCurrentIndex] = useState(cases.length - 1);
   const [noTransition, setNoTransition] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [isClickDisabled, setIsClickDisabled] = useState(false);
-  const [isSafariBrowser, setIsSafariBrowser] = useState(false);
-
-  const videoRef = useRef(null);    // Vídeo principal
-  const videoIaRef = useRef(null);  // Vídeo da Dani
-
-  // Cria uma lista com os slides repetidos para efeito de loop
-  const tripleSlides = useMemo(() => cases.concat(cases, cases), []);
-  const navSizes = getNavigationSizes(windowWidth, containerWidth);
-  const centerPosition = navSizes.centerPosition;
-  const dimensions = getSlideDimensions(windowWidth);
 
   /* Detecção de Safari */
   useEffect(() => {
@@ -35,6 +25,17 @@ export function Carousel() {
       ua.indexOf('android') === -1;
     setIsSafariBrowser(isSafari);
   }, []);
+
+  const videoRef = useRef(null);    // Vídeo principal
+  const videoIaRef = useRef(null);  // Vídeo da Dani
+  const containerWidth = isSafariBrowser ? windowWidth : windowWidth * 0.8;
+
+  // Cria uma lista com os slides repetidos para efeito de loop
+  const tripleSlides = useMemo(() => cases.concat(cases, cases), []);
+  const navSizes = getNavigationSizes(windowWidth, containerWidth);
+  const centerPosition = navSizes.centerPosition;
+  const dimensions = getSlideDimensions(windowWidth);
+
 
   /* Controle dos vídeos */
   function handleVideoControl(action) {
