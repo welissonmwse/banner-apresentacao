@@ -30,9 +30,9 @@ export function Carousel() {
   /* Detecção de Safari */
   useEffect(() => {
     const ua = navigator.userAgent.toLowerCase();
-    const isSafari = ua.indexOf('safari') !== -1 && 
-                     ua.indexOf('chrome') === -1 && 
-                     ua.indexOf('android') === -1;
+    const isSafari = ua.indexOf('safari') !== -1 &&
+      ua.indexOf('chrome') === -1 &&
+      ua.indexOf('android') === -1;
     setIsSafariBrowser(isSafari);
   }, []);
 
@@ -404,7 +404,7 @@ export function Carousel() {
       }
     })();
   };
-  
+
   // Estilos do carrossel
   const respSizes = getResponsiveSizes(windowWidth);
   const inactiveWidth = respSizes.inactiveWidth;
@@ -430,7 +430,7 @@ export function Carousel() {
     transform: `translateX(${wrapperOffset}px)`,
     transition: noTransition ? 'none' : 'transform 0.5s ease'
   };
-  
+
   // Observa mudanças na classe "active" do mainContainer para pausar os videos caso necessário
   useEffect(() => {
     const mainContainer = document.querySelector('.sessao-inicio');
@@ -493,25 +493,28 @@ export function Carousel() {
         windowWidth={windowWidth}
       />
 
-      <img
-        src="https://intranet.seatecnologia.com.br/documents/d/guest/mesa"
-        alt="mesa"
-        id="mesa-apresentacao"
-      />
+
 
       {!isSafariBrowser && (
-        <div id="dani-wrapper">
-          <video
-            className="video-avatar-dani"
-            ref={videoIaRef}
-            preload="metadata"
-            muted
-            playsInline
-          >
-            <source src={(tripleSlides[currentIndex] && tripleSlides[currentIndex].videoApresentacaoIa)} type="video/mp4" />
-            Seu navegador não suporta a tag de vídeo.
-          </video>
-        </div>
+        <>
+          <img
+            src="https://intranet.seatecnologia.com.br/documents/d/guest/mesa"
+            alt="mesa"
+            id="mesa-apresentacao"
+          />
+          <div id="dani-wrapper">
+            <video
+              className="video-avatar-dani"
+              ref={videoIaRef}
+              preload="metadata"
+              muted
+              playsInline
+            >
+              <source src={(tripleSlides[currentIndex] && tripleSlides[currentIndex].videoApresentacaoIa)} type="video/mp4" />
+              Seu navegador não suporta a tag de vídeo.
+            </video>
+          </div>
+        </>
       )}
     </div>
   );
