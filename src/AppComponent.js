@@ -494,8 +494,6 @@ export function Carousel() {
         windowWidth={windowWidth}
       />
 
-
-
       {!isSafariBrowser && (
         <>
           <img

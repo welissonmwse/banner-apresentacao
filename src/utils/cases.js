@@ -5,8 +5,8 @@ export const cases = [
     logoClient: "https://intranet.seatecnologia.com.br/documents/d/guest/sesc_logo",
     banner: "https://www.seatecnologia.com.br/documents/d/guest/banner-1",
     imgIndicador: "https://www.seatecnologia.com.br/documents/d/guest/imgindicador",
-    videoApresentacaoIa: "https://comercial.seatecnologia.com.br/sesc_avatar.webm",
-    videoApresentacao: "https://comercial.seatecnologia.com.br/SESC.mp4"
+    videoApresentacaoIa: "https://comercial.seatecnologia.com.br/mesa-brasil-1.webm",
+    videoApresentacao: "https://comercial.seatecnologia.com.br/mesa-brasil-2.webm"
   },
   {
     id: "2",
